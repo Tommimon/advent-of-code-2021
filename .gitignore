@@ -1,5 +1,6 @@
 # JetBrains related
 .idea/
+advent-of-code-2021.iml
 
 # VS Code related
 .vscode/
