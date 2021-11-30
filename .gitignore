@@ -1,0 +1,12 @@
+# JetBrains related
+.idea/
+
+# VS Code related
+.vscode/
+.vs/
+
+# Private user files
+private/
+
+# Mac files
+.DS_Store
