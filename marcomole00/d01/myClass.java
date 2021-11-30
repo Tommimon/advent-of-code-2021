@@ -1,4 +1,4 @@
-package d01;
+package marcomole00.d01;
 
 public class myClass {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package d01;
+package tommimon.d01;
 
 public class myClass {
     public static void main(String[] args) {
