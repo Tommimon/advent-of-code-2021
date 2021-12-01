@@ -1,19 +1,28 @@
 package tommimon.d01;
 
-public class Window {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Window implements Iterator<Integer> {
     Reports r;
     int size;
     int pos;
     int content;
+    int count;
 
     public Window(Reports r, int size) {
         this.r = r;
         this.size = size;
         this.pos = 0;
         content = 0;
+        count = 0;
         for(int i = pos; i < pos + size; i++) {
             content += r.get(i);
         }
+    }
+
+    public boolean hasNext() {
+        return pos < r.size() - size;
     }
 
     void step() {
@@ -22,16 +31,14 @@ public class Window {
         pos++;
     }
 
-    int countStep() {
-        int old = content;
-        step();
-        return content > old ? 1 : 0;
-    }
-
-    public int count() {
-        int total = 0;
-        while (pos < r.size() - size)
-            total += countStep();
-        return total;
+    public Integer next() throws NoSuchElementException {
+        if(hasNext()) {
+            int old = content;
+            step();
+            if(content > old)
+                count++;
+            return count;
+        }
+        else throw new NoSuchElementException();
     }
 }

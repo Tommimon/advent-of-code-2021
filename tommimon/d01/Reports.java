@@ -2,11 +2,16 @@ package tommimon.d01;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Vector;
 
-public class Reports {
+public class Reports{
     Vector<Integer> nums;
+
+    public Iterator<Integer> window(int size) {
+        return new Window(this, size);
+    }
 
     public Reports(String fileName)  {
         nums = new Vector<>();

@@ -1,11 +1,20 @@
 package tommimon.d01;
 
+import java.util.Iterator;
+
 public class Main {
     public static void main(String[] args) {
         Reports r = new Reports("tommimon/d01/input");
-        Window w1 = new Window(r, 1);
-        System.out.println(w1.count());
-        Window w2 = new Window(r, 3);
-        System.out.println(w2.count());
+        int ris = 0;
+        Iterator<Integer> w1 = r.window(1);
+        while (w1.hasNext()) {
+            ris = w1.next();
+        }
+        System.out.println(ris);
+        Iterator<Integer> w2 = r.window(3);
+        while (w2.hasNext()) {
+            ris = w2.next();
+        }
+        System.out.println(ris);
     }
 }
