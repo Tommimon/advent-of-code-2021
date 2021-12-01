@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Vector;
 
-public class myClass {
+public class SimpleSolution {
     public static void main(String[] args) throws FileNotFoundException {
         Vector<Integer> nums = new Vector<>();
         File myObj = new File("tommimon/d01/input");
