@@ -1,18 +1,31 @@
-# Pierluigi's 2021 day1 part 2: read and parse integers from file,
-# check if number is greater than third last number (storing in int[3] array): result++
+# Gonduls's 2021 day1: read and parse integers from file,
+# p_1 check if number is greater than previous number: result++
+# p_2 check if number is greater than third last number (storing in int[3] array): result++
+# Did not store static registers in eqv variables because why would I
+# Mostly copied from Riccardo's day1 2020, some comments might refer to his code instead of mine
+# Our solutions to Advent of Code:
+# 2021: https://github.com/Tommimon/advent-of-code-2021
+# 2020: https://github.com/Tommimon/advent-of-code-2020
 
 .data
 
-.eqv FILE_MAX_SIZE 100000		# used to set buffer size for reading, greatly exaggerated cause it works
+.eqv FILE_MAX_SIZE 100000		# used to set buffer size for reading, greatly exaggerated 'cause it works
 .eqv NUMBERS_AMOUNT 3
 .eqv NUMBERS_AMOUNT_BYTE 12	    # 3 * 4 bytes
 
 NUM_ARRAY: .space NUMBERS_AMOUNT_BYTE 			
 BUFFER: .space FILE_MAX_SIZE
 FILE_NAME: .asciiz "input.txt"
+WELCOME_STRING: .asciiz "Welcome to me copying (again) Riccardo's first MIPS program ever attempting to solve day 1 of Advent Of Code 2020!\n"
+PART1_SUCCESS: .asciiz "Here's your result for the first part:\n"
 PART2_SUCCESS: .asciiz "Here's your result for the second part:\n"
 
 .text
+WELCOME:
+	li $v0, 4			        # 4 --> print_string
+	la $a0, WELCOME_STRING		# $a0 = address of null-terminated string to print    
+	syscall
+
 ##### READ FILE TO BUFFER #####
 OPEN_FILE:
 	li $v0, 13			        # 13 --> open_file
@@ -39,7 +52,9 @@ READ_FILE:
 # $t7 is the thing read and manipulated
 # $s1 is the current integer
 # $s2 is the index of three number array (0, 4, 8 values only)
-# $s3 is the result
+# $s3 is the previous number
+# $s4 is the result part 1
+# $s5 is the result part 2
 
 PARSE_START: 
 	la $t0, BUFFER
@@ -52,7 +67,9 @@ PARSE_START:
     sw $t9, 4($t1)
     sw $t9, 8($t1)
 	move $s2, $zero
-	move $s3, $zero
+	move $s3, $t9
+	move $s4, $zero
+	move $s5, $zero
 
 PARSE_CICLE:
 	lb $t7, ($t0)
@@ -66,19 +83,27 @@ PARSE_CICLE:
 	addi $t0, $t0, 1		    # switch to next char
 	j PARSE_CICLE
 
-FOUND_BACKSLASH_N:				# finally we have found the full number
+FOUND_BACKSLASH_N:			    # finally we have found the full number
 	addiu $t0, $t0, 1 		    # switch to next char
-	
+
+############ Part 1 ###############	
+    bge $s3, $s1, NUMBER_NOT_INCREASED_1
+    addi $s4, $s4, 1            # if current > previous: result_1 ++
+
+NUMBER_NOT_INCREASED_1:
+    move $s3, $s1
+
+
+############ Part 2 ###############    
     addu $t3, $s2, $t1          # calculate address
     lw $t2, ($t3)               # get third last number stored in array
 	
-    
-    bge $t2, $s1, NUMBER_NOT_INCREASED
-    addi $s3, $s3, 1            # if current > third last: result ++
+    bge $t2, $s1, NUMBER_NOT_INCREASED_2
+    addi $s5, $s5, 1            # if current > third last: result_2 ++
     
 
 
-NUMBER_NOT_INCREASED:
+NUMBER_NOT_INCREASED_2:
     addu $t3, $s2, $t1          # calculate address
     sw $s1, ($t3)               # store int in correct position in array
     move $s1, $zero 		    # reset the value in $s1 so it can read a new number
@@ -93,10 +118,19 @@ INDEX_OK:
 
 END_PARSE_CICLE:
 	li $v0, 4			        # 4 --> print_string
+	la $a0, PART1_SUCCESS	    # $a0 = address of null-terminated string to print    
+	syscall
+	li $v0, 1			        # 1 --> print_int
+	move $a0, $s4               # print result
+	syscall	
+    li $v0, 11                  # 11 --> print_byte
+	li $a0, '\n'
+	syscall	
+    li $v0, 4			        # 4 --> print_string
 	la $a0, PART2_SUCCESS	    # $a0 = address of null-terminated string to print    
 	syscall
 	li $v0, 1			        # 1 --> print_int
-	move $a0, $s3               # print result
+	move $a0, $s5               # print result
 	syscall	                    
     li $v0, 10      		    # End program
 	syscall

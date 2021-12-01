@@ -61,7 +61,7 @@ PARSE_CICLE:
 	addi $t0, $t0, 1		    # switch to next char
 	j PARSE_CICLE
 
-    FOUND_BACKSLASH_N:			# finally it's time to save the full number in the array
+FOUND_BACKSLASH_N:				# finally we have found the full number
 #	li $v0, 1			        # 1 --> print_int
 #	move $a0, $s1
 #	syscall				        # print the item just added
