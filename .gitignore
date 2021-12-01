@@ -11,3 +11,4 @@ private/
 
 # Mac files
 .DS_Store
+/out/
