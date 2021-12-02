@@ -2,6 +2,7 @@ package tommimon.d01;
 
 import java.util.Iterator;
 
+// main
 public class Main {
     public static void main(String[] args) {
         Reports r = new Reports("tommimon/d01/input");
