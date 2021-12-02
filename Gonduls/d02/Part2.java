@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 public class Part2 {
     public static void main(String[] args) {
         String input = "input.txt";
-        Point3d me = new Point3d();
+        Point3d me = new Point3d();         // using z as aim, x as horizontal, y as depht
 
 
         Consumer<String> movement = s -> {

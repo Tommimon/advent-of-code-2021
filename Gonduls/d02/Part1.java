@@ -7,7 +7,7 @@ import java.nio.file.*;
 public class Part1{
     public static void main(String[] args) {
         String input = "input.txt";
-        Point2d me = new Point2d();
+        Point2d me = new Point2d();         // using x as horizontal, y as depht
 
 
         Consumer<String> movement = s -> {
