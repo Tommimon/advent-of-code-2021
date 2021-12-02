@@ -8,7 +8,7 @@ advent-of-code-2021.iml
 
 # Private user files
 private/
-cookies.py
+cookies
 
 # Mac files
 .DS_Store
