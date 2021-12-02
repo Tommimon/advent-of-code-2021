@@ -1,3 +1,5 @@
+package marcoparadina.d01._1;
+
 import java.io.File;
 import java.util.Scanner;
 

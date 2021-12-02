@@ -1,3 +1,5 @@
+package marcoparadina.d01._2;
+
 //Wrote this at 23:34 after a very long day: I know it looks awful, better avoid reading. Not gonna fix it, not worth it.
 import java.io.File;
 import java.util.Scanner;
