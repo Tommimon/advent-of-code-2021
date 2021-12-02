@@ -1,3 +1,5 @@
+package mynam3isg00d.d02.src;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
