@@ -20,7 +20,7 @@ def update_cookies():
 
 def update_leaderboard():
     ts = round(time.time())
-    with open(LEADERBOARD_FILE, "r") as input_file:
+    with open(LEADERBOARD_FILE, "r", encoding="utf-8") as input_file:
         data = input_file.readlines()[0]
     old_ts = int(data.split(',"event"')[0].split('"last_modified":')[1])
 
@@ -41,7 +41,7 @@ def update_leaderboard():
             return False
         print("New leaderboard downloaded successfully")
         txt = txt.replace('"event"', '"last_modified":' + str(ts) + ',"event"')
-        with open(LEADERBOARD_FILE, 'w') as output_file:
+        with open(LEADERBOARD_FILE, 'w', encoding="utf-8") as output_file:
             output_file.write(txt)
     else:
         print("Not enough time elapsed since last update, skipping leaderboard update")
