@@ -15,8 +15,6 @@ public class day3 {
             String firstString = lista.get(0);
             String GammaString = "";
             String epsilonString = "";
-
-
             int counter = 0; //s
             int i = 0;
 
@@ -32,8 +30,6 @@ public class day3 {
                     GammaString = GammaString + '0';
                     epsilonString = epsilonString + '1';
                 }
-
-
                 i++;
             }
 
@@ -45,57 +41,60 @@ public class day3 {
             List<String> lista2 = lista;
             i = 0;
             char mostCommonBit;
-            while (i < firstString.length())  {
+            while (i < firstString.length()) {
                 counter1 = 0;
-                counter0= 0;
+                counter0 = 0;
                 for (String laterString : lista2) {
-                    if (laterString.charAt(i) == '1'){counter1++;}
-                    else{counter0++;}
+                    if (laterString.charAt(i) == '1') {
+                        counter1++;
+                    } else {
+                        counter0++;
+                    }
                 }
-                if (counter1 >=counter0  ){
+                if (counter1 >= counter0) {
                     mostCommonBit = '1';
-                } else
-                {
+                } else {
                     mostCommonBit = '0';
                 }
                 int finalI = i;
                 char finalMostCommonBit = mostCommonBit;
-                if (lista2.size()>1) {lista2 = lista2.stream().filter(s->s.charAt(finalI) == finalMostCommonBit).toList();}
+                if (lista2.size() > 1) {
+                    lista2 = lista2.stream().filter(s -> s.charAt(finalI) == finalMostCommonBit).toList();
+                }
                 i++;
 
             }
             char leastCommonBit;
-            i =0 ;
-            while (i < firstString.length())  {
+            i = 0;
+            while (i < firstString.length()) {
                 counter1 = 0;
-                counter0= 0;
+                counter0 = 0;
                 for (String laterString : lista) {
-                    if (laterString.charAt(i) == '1'){counter1++;}
-                    else{counter0++;}
+                    if (laterString.charAt(i) == '1') {
+                        counter1++;
+                    } else {
+                        counter0++;
+                    }
                 }
-                if (counter1 >=counter0  ){
+                if (counter1 >= counter0) {
                     leastCommonBit = '0';
-                } else
-                {
+                } else {
                     leastCommonBit = '1';
                 }
                 int finalI = i;
                 char finalLeastCommonBit = leastCommonBit;
-                if (lista.size()>1) {lista = lista.stream().filter(s->s.charAt(finalI) == finalLeastCommonBit).toList();}
+                if (lista.size() > 1) {
+                    lista = lista.stream().filter(s -> s.charAt(finalI) == finalLeastCommonBit).toList();
+                }
                 i++;
 
             }
-            int O2 = lista2.stream().mapToInt(s-> Integer.parseInt(s,2)).reduce(0,(a,b)->a+b);
-            int CO2 = lista.stream().mapToInt(s-> Integer.parseInt(s,2)).reduce(0,(a,b)->a+b);
-            System.out.println(O2*CO2);
+            int O2 = lista2.stream().mapToInt(s -> Integer.parseInt(s, 2)).reduce(0, (a, b) -> a + b);
+            int CO2 = lista.stream().mapToInt(s -> Integer.parseInt(s, 2)).reduce(0, (a, b) -> a + b);
+            System.out.println(O2 * CO2);
 
 
-
-
-
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             System.out.println("oaoa");
         }
 
