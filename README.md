@@ -8,7 +8,7 @@ click [here](https://tommimon.github.io/advent-of-code-2021/)
     .-'  |
    /   <\|
   /     \'
-  |_.- o-o        - Giorno 2 di Riccardo che non ha ancora fatto il sito
+  |_.- o-o        - Giorno 3 di Riccardo che non ha ancora fatto il sito
   / C  -._)\
  /',        |
 |   `-,_,__,'

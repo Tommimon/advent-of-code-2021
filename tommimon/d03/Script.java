@@ -42,10 +42,8 @@ public class Script {
             }
         }
 
-        System.out.println("Part 1:");
-        System.out.println(gamma);
-        System.out.println(epsilon);
-        System.out.println("\nPart 2:");
+        int res = Integer.parseInt(gamma, 2) * Integer.parseInt(epsilon, 2);
+        System.out.println(res);
 
         String oxigen = "";
         String co2 = "";
@@ -88,7 +86,7 @@ public class Script {
             oldO2 = (Vector<String>) o2nums.clone();
         }
 
-        System.out.println(oldO2.get(0));
-        System.out.println(oldCo2.get(0));
+        res = Integer.parseInt(oldO2.get(0), 2) * Integer.parseInt(oldCo2.get(0), 2);
+        System.out.println(res);
     }
 }
