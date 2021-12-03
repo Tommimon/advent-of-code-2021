@@ -3,10 +3,14 @@ import platform
 import os
 import stat
 
-text = '''# update leaderboard before commit
+text = '''#!/bin/sh
+# update leaderboard before commit
 python3 leaderboard.py
 git add leaderboard.json
 '''
+
+if platform.system() == 'Windows':
+    text = text.replace('python3', 'python')
 
 path = pathlib.Path('.git/hooks/pre-commit')
 fp = open(path, 'w')

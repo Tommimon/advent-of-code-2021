@@ -1,6 +1,10 @@
 from os.path import exists
-import requests
 import time
+try:
+    import requests
+except ModuleNotFoundError:
+    print("Can't find requests module, stopping update")
+    exit(0)
 
 URL = 'https://adventofcode.com/2021/leaderboard/private/view/976110.json'
 COOKIE_FILE = 'cookies'
