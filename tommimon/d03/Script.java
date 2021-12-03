@@ -16,37 +16,30 @@ public class Script {
         }
         myReader.close();
 
-        Integer[] unos = new Integer[12];
+        Integer[] ones = new Integer[12];
         for (int i = 0; i < 12; i++) {
-            unos[i] = 0;
+            ones[i] = 0;
         }
         for (String num : nums) {
             for (int i = 0; i < 12; i++) {
                 if (num.charAt(i) == '1') {
-                    unos[i]++;
+                    ones[i]++;
                 }
             }
         }
 
         String gamma = "";
-        String epsilon = "";
 
-        for (Integer u : unos) {
-            if (u > nums.size()/2) {
+        for (Integer u : ones) {
+            if (u > nums.size()/2)
                 gamma = gamma + '1';
-                epsilon = epsilon + '0';
-            }
-            else {
+            else
                 gamma = gamma + '0';
-                epsilon = epsilon + '1';
-            }
         }
 
-        int res = Integer.parseInt(gamma, 2) * Integer.parseInt(epsilon, 2);
+        int g = Integer.parseInt(gamma, 2);
+        int res = g * ((int) (Math.pow(2, 12)) - 1 - g);
         System.out.println(res);
-
-        String oxigen = "";
-        String co2 = "";
 
         Vector<String> o2nums;
         Vector<String> oldO2 = (Vector<String>) nums.clone();
