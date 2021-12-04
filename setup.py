@@ -2,6 +2,7 @@ import pathlib
 import platform
 import os
 import stat
+import re
 
 text = '''#!/bin/sh
 # update leaderboard before commit
@@ -25,17 +26,23 @@ if platform.system() != 'Windows':
 
 def write_cookies(new_cookies):
     with open(COOKIE_FILE, 'w') as output_file:
-        output_file.write(new_cookies.strip("Cookie: "))
+        output_file.write(new_cookies)
 
 
-try:
-    with open(COOKIE_FILE, "r") as input_file:
-        current = input_file.readlines()[0]
-        cookies = input("New cookies (press ENTER to keep current): ")
-        if cookies != "":
-            write_cookies(cookies)
-except (IndexError, FileNotFoundError):
-    cookies = input("Cookies not found, enter your session cookies: ")
+cookies = "empty"
+wrong = False
+while not (re.match("session=[a-z0-9]*", cookies) or cookies == ""):
+    if wrong:
+        print("This isn't a valid cookie please retry")
+    wrong = True
+    try:
+        with open(COOKIE_FILE, "r") as input_file:
+            current = input_file.readlines()[0]
+            cookies = input("New cookies (press ENTER to keep current): ")
+    except (IndexError, FileNotFoundError):
+        cookies = input("Cookies not found, enter your session cookies: ")
+    cookies = cookies.strip("Cookie: ")
+if cookies != "":
     write_cookies(cookies)
 
 
