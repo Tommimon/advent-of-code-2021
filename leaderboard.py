@@ -1,4 +1,3 @@
-from os.path import exists
 import time
 try:
     import requests
@@ -10,12 +9,6 @@ URL = 'https://adventofcode.com/2021/leaderboard/private/view/976110.json'
 COOKIE_FILE = 'cookies'
 LEADERBOARD_FILE = 'leaderboard.json'
 DELTA_TIME = 900
-
-
-def update_cookies():
-    cookies = input("Enter new cookies: ")
-    with open(COOKIE_FILE, 'w') as output_file:
-        output_file.write(cookies)
 
 
 def update_leaderboard():
@@ -30,10 +23,10 @@ def update_leaderboard():
             with open(COOKIE_FILE, "r") as input_file:
                 cookies = input_file.readlines()[0]
             headers = {"Cookie": cookies}
-        except IndexError:
+            print("Cookies loaded successfully")
+        except (IndexError, FileNotFoundError):
             print("Cookies not found")
             return False
-        print("Cookies loaded successfully")
 
         txt = requests.get(URL, headers=headers).text
         if txt.find('"owner_id":"976110"') == -1:  # check leaderboard
@@ -48,16 +41,7 @@ def update_leaderboard():
     return True
 
 
-if not exists(COOKIE_FILE):
-    print("Cookies not found")
-    update_cookies()
-
-# if something goes wring update cookies and retry
 if not update_leaderboard():
-    update_cookies()
-    if update_leaderboard():
-        print("Leaderboard is up to date")
-    else:
-        print("Couldn't update the leaderboard")
+    print("Couldn't update the leaderboard")
 else:
     print("Leaderboard is up to date")
