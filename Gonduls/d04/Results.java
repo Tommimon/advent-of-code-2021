@@ -11,7 +11,7 @@ public class Results {
         List<BingoBoard> bingoBoards;
 
         try {
-            input = new Input("d04/input.txt");
+            input = new Input("Gonduls/d04/input.txt");
         }
         catch (IOException e){
             System.out.println("Something useful about the file not opening, @Marco\n" + e );
