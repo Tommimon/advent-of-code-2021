@@ -12,6 +12,7 @@ public class day5 {
 
     public static void main(String[] args) {
         try {
+
             boolean part2 = true;
             int SIZE = 1000;
             int fromX,fromY, toX,toY;
@@ -25,8 +26,6 @@ public class day5 {
             }
             BufferedReader br = Files.newBufferedReader(Paths.get("marcomole00/d05/input"));
             List<String[]> lista = br.lines().map(s -> s.split(" -> ")).toList();
-
-           // lista.forEach(s-> System.out.println(s[0] + " " + s[1]));
             for (String[] line : lista)
             {
                 fromX = Integer.parseInt(line[0].split(",")[0]);
@@ -43,7 +42,6 @@ public class day5 {
                 }
                 else if(part2)
                 {
-                    //ystem.out.println("x: " + fromX + " y: " + fromY  );
                     int xDiff = toX - fromX;
                     int yDiff = toY - fromY;
                     int xIncr=0; int yIncr = 0;
@@ -53,28 +51,16 @@ public class day5 {
                         xIncr += xDiff / (abs(xDiff));
                         yIncr += yDiff / (abs(yDiff));
                         matrix[fromX+xIncr][fromY+yIncr].incrementPass();
-
-
                     }while(fromX + xIncr != toX  && fromY+yIncr != toY);
-
-
                 }
-
-
             }
-
             int count = 0;
-            for(Point[] line: matrix )
-            {
-                for (Point p : line)
-                {
+            for(Point[] line: matrix ) {
+                for (Point p : line) {
                     if (p.moreThanOnePass()) count++;
                 }
             }
             System.out.println(count);
-
-
-
         } catch(IOException e){
             System.out.println("ME DESPIACE");
         }
