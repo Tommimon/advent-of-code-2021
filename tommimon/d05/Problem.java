@@ -6,16 +6,59 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Vector;
 
-public class Problem {
-    Vector<Integer[]> points = new Vector<>();
+class Matcher extends Thread {
+    int index;
+    Vector<Integer[]> points;
+    Vector<Line> lines;
+    final Object mutex = new Object();
+
+    public Matcher(int index, Vector<Line> lines, Vector<Integer[]> points) {
+        this.index = index;
+        this.lines = lines;
+        this.points = points;
+    }
 
     void addPoint(Integer[] newPoint) {
-        for( Integer[] p : points) {
+        for( Integer[] p : getPoints()) {
             if(Arrays.equals(p, newPoint))
                 return;
         }
-        points.add(newPoint);
+        doAdd(newPoint);
     }
+
+    synchronized Vector<Integer[]> getPoints() {
+        synchronized (mutex) {
+            return new Vector<>(points);
+        }
+    }
+
+    synchronized void doAdd(Integer[] newPoint) {
+        synchronized (mutex) {
+            points.add(newPoint);
+        }
+    }
+
+    @Override
+    public void run() {
+        findMatches();
+    }
+
+    void findMatches() {
+        System.out.println(index);
+        for(int j = index+1; j < lines.size(); j++) {
+            for(Integer[] p1 : lines.get(index).points) {
+                for(Integer[] p2 : lines.get(j).points) {
+                    if(Arrays.equals(p1, p2)) {
+                        addPoint(p1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+public class Problem {
+    Vector<Integer[]> points = new Vector<>();
 
     public void solve(int part) throws FileNotFoundException {
         Vector<String> strings = new Vector<>();
@@ -35,16 +78,17 @@ public class Problem {
                 lines.add(l);
         }
 
+        Vector<Thread> threads = new Vector<>();
         for (int i = 0; i < lines.size(); i++) {
-            System.out.println(i);
-            for(int j = i+1; j < lines.size(); j++) {
-                for(Integer[] p1 : lines.get(i).points) {
-                    for(Integer[] p2 : lines.get(j).points) {
-                        if(Arrays.equals(p1, p2)) {
-                            addPoint(p1);
-                        }
-                    }
-                }
+            Thread t = new Matcher(i, lines, points);
+            threads.add(t);
+            t.start();
+        }
+        for(Thread t : threads) {
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
 
@@ -52,4 +96,3 @@ public class Problem {
         System.out.println(points.size());
     }
 }
-
