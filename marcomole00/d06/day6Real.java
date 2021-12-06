@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Part2 {
+public class day6Real {
     public static void main(String[] args) {
         try {
             BufferedReader br = Files.newBufferedReader(Paths.get("marcomole00/d06/input"));
@@ -34,7 +34,7 @@ public class Part2 {
                 numeriArray[6] += numberOfZeros;
                 numberOfZeros = numeriArray[0];
 
-
+                if(j ==79) {System.out.println(Arrays.stream(numeriArray).reduce(0, Long::sum));}
             }
 
             System.out.println(Arrays.stream(numeriArray).reduce(0, Long::sum));

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//DEPRECATED, TOO SLOW FOR PART TWO
 public class day6 {
 
     public static int regenerate(int num)
