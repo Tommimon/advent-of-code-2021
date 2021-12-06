@@ -19,8 +19,9 @@ public class Results {
                 .map(Integer::parseInt)
                 .toArray(Integer[] :: new);
 
-
         long[] daysLeft = new long[9];
+
+        // count for every number of days left (from 0 to 9 hypotetically) how many fish need that amount of days
         for(Integer day : fish)
             daysLeft[day] ++;
 
