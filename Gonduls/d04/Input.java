@@ -4,42 +4,38 @@ import java.io.*;
 import java.util.*;
 
 public class Input {
-    private BufferedReader reader;
-    private Integer[] numbers;
-    private List<BingoBoard> boards;
+    private final Integer[] numbers;
+    private final List<BingoBoard> boards;
 
     public Input(String filePath) throws IOException {
-        reader = new BufferedReader(new FileReader(filePath));
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
         numbers = Arrays.stream(reader.readLine().split(","))
-                .map(c -> Integer.parseInt(c))
+                .map(Integer :: parseInt)
                 .toArray(Integer[] :: new);
+
         boards = new ArrayList<>();
 
-        while(true){
-            reader.readLine();
-
-            try{
-                int[][] temporary = new int[5][5];
-                for(int i = 0; i< 5; i++){
-                    String string = reader.readLine().replace("\s+", " ");
-                    if(string.startsWith("\s")){
-                        string = string.substring(1);
-                    }
-                    Integer[] array = Arrays.stream(string.split("\s+"))
-                            .map(c -> Integer.parseInt(c))
+        // I check for eof while reading the empty line separating boards
+        while(reader.readLine() != null){
+            int[][] temporary = new int[5][5];
+            for(int i = 0; i< 5; i++){
+                Integer[] array = Arrays.stream(
+                        reader.readLine()
+                                .replace("\s+", " ")
+                                .trim()                 // to account for the starting space in a line for some numbers
+                                .split("\s+")     // "\s+" is a regular expression for: one 1+ blank spaces
+                        )
+                            .map(Integer :: parseInt)
                             .toArray(Integer[] :: new);
-                    //System.arraycopy(array, 0, temporary[i], 0, 5);
-                    for(int j = 0; j< 5; j++){
-                        //System.out.println(array[j]);
-                        temporary[i][j] = array[j];
-                    }
 
-                }
-                boards.add(new BingoBoard(temporary));
-            } catch(Exception e){
-                break;
+                // couldn't manage to do it in stream
+                for(int j = 0; j< 5; j++)
+                    temporary[i][j] = array[j];
+
+
             }
+            boards.add(new BingoBoard(temporary));
         }
         reader.close();
     }
@@ -51,9 +47,9 @@ public class Input {
     public List<BingoBoard> getBoards(){
         List<BingoBoard> copy = new ArrayList<>();
         for(BingoBoard board : boards){
-            copy.add(board.clone());
+            copy.add(board.deepCopy());
         }
-        return(boards);
+        return(copy);
     }
 
 }
