@@ -14,7 +14,7 @@ def sumOfDistances_2(dictionary, where_to):
     # using gauss formula to calculate sum of integers:
     for key in dictionary.keys():
         a = abs(where_to - key)
-        result += (int) ( ( a * (a+1) /2) * dictionary[key])
+        result +=  ( a * (a+1) //2) * dictionary[key]
     
     return result
 
