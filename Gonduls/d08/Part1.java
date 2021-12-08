@@ -9,7 +9,7 @@ public class Part1 {
 
         Stream<String> stream = Files.lines(Paths.get("Gonduls/d08/input.txt"));
 
-        // just count correct lenght strings 
+        // just count correct length strings
         long result = stream
                 .map(s -> s.replace('|', 'z').split("z")[1])
                 .flatMap(s -> Stream.of(s.trim().split(" ")))
