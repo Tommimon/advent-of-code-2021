@@ -1,2 +1,21 @@
-package Gonduls.d08;public class Part1 {
+package Gonduls.d08;
+
+import java.io.*;
+import java.nio.file.*;
+import java.util.stream.Stream;
+
+public class Part1 {
+    public static void main(String[] args) throws IOException {
+
+        Stream<String> stream = Files.lines(Paths.get("Gonduls/d08/input.txt"));
+
+        // just count correct lenght strings 
+        long result = stream
+                .map(s -> s.replace('|', 'z').split("z")[1])
+                .flatMap(s -> Stream.of(s.trim().split(" ")))
+                .filter(s -> (s.length() < 5 || s.length() == 7))
+                .count();
+
+        System.out.println("Result part 1 = " + result);
+    }
 }
