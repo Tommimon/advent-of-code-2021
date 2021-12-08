@@ -9,6 +9,7 @@ public class Part2 {
     public static void main(String[] args) throws IOException {
         Stream<String> stream = Files.lines(Paths.get("Gonduls/d08/input.txt"));
         int result = stream.map(Part2::giveOutput).reduce(0, Integer::sum);
+        stream.close();
         System.out.println(result);
     }
 

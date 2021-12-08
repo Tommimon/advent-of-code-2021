@@ -16,6 +16,7 @@ public class Part1 {
                 .filter(s -> (s.length() < 5 || s.length() == 7))
                 .count();
 
+        stream.close();
         System.out.println("Result part 1 = " + result);
     }
 }
