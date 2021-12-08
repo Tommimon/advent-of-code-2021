@@ -49,7 +49,7 @@ public class day8 {
 
     public static void main(String[] args) {
         try {
-            BufferedReader br = Files.newBufferedReader(Paths.get("marcomole00/d08/test"));
+            BufferedReader br = Files.newBufferedReader(Paths.get("marcomole00/d08/input"));
             List<String> input = br.lines().toList();
             List<String[]> connection =  input.stream().map(s-> s.replace("|", "x"))
                     .map(s -> s.split("x")[0]).map(s -> s.split(" ")).toList();
@@ -92,7 +92,7 @@ public class day8 {
                             mappingAllLines[indice][i] = 'b';
                             break;
                         case 7:
-                            if (four.indexOf(( i + 'a') ) >0) {mappingAllLines[indice][i] = 'd';}
+                            if (four.indexOf(( i + 'a') ) >=0) {mappingAllLines[indice][i] = 'd';}
                             else mappingAllLines[indice][i] = 'g';
                             break;
                         case 8:
