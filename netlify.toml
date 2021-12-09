@@ -1,4 +1,4 @@
 [build]
   # This is where Netlify will look for package.json/.nvmrc/etc.
   # If not set, defaults to the root directory.
-  base = "aoc-leaderboard/"
+  base = "aoc-scoreboard/"
