@@ -20,6 +20,6 @@ Our solutions to Advent of Code problems
 ## Leaderboard
 Click [here](https://tommimon.github.io/advent-of-code-2021/) to visit the leaderboard webpage 
 
-To enable leaderboard automatic update on every commit run `setup.py`
+To enable leaderboard automatic update on every commit run [`setup.py`](https://github.com/Tommimon/advent-of-code-2021/blob/master/setup.py)
 
 
