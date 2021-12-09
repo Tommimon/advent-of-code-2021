@@ -26,3 +26,7 @@ for i in range(len(poly)):
 A = np.array(A)
 B = np.array(NUM)
 X = np.linalg.inv(A).dot(B)
+
+print(X.tolist())
+print(zeros.tolist())
+print(sign)
