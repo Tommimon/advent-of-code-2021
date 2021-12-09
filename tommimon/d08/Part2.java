@@ -48,14 +48,12 @@ public class Part2 {
         String[][] second = lines.stream().map(s->s.replace("|", "_").split("_ ")[1].split(" ")).toArray(String[][]::new);
 
         String[] shapes = {"abcefg", "cf", "acdeg", "acdfg", "bcdf", "abdfg", "abdefg", "acf", "abcdefg", "abcdfg"};
-        Integer[] lengths = Arrays.stream(shapes).map(String::length).toArray(Integer[]::new);
         String letters = "abcdefg";
 
         int total = 0;
 
         for (int i = 0; i < first.length; i++) {
             String[] l = first[i];
-            //a, b, c, d, f,
             String[] matches = {"abcdefg", "abcdefg", "abcdefg", "abcdefg", "abcdefg", "abcdefg", "abcdefg"};
             String tag = ofLen(l, 2)[0];
                 matches[2] = tag;
