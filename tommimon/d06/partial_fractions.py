@@ -37,6 +37,6 @@ A = np.array(A)
 B = np.array(NUM)
 X = np.linalg.inv(A).dot(B)
 
-print(X.tolist())
+numerators = X * sign
+print(numerators.tolist())
 print(zeros.tolist())
-print(sign)
