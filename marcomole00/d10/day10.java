@@ -5,19 +5,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+
 import java.util.List;
 
 public class day10 {
-
-
-
-
-
     public static void main(String[] args) {
         try {
-
             String openers = "([{<";
             String closers = ")]}>";
             int[] errorScores = {3,57,1197,25137};
@@ -51,7 +44,6 @@ public class day10 {
                             charPos = line.length();
                             errorValueTotal += errorValueLine;
                         }
-
                     }
                     charPos++;
                     if (charPos == line.length() && errorValueLine == 0) {
@@ -66,10 +58,6 @@ public class day10 {
             closingValues.sort(Long::compareTo);
             System.out.println(errorValueTotal);
             System.out.println(closingValues.get(closingValues.size()/2));
-
         } catch (IOException ignored){}
-
-
-
     }
 }
