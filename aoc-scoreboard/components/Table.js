@@ -30,7 +30,7 @@ export default function Table(props) {
       .then(
         (result) => {
           // replace members with a sorted array
-          result.members = Object.entries(result.members).sort((a, b) => a[1].local_score < b[1].local_score);
+          result.members = Object.entries(result.members).sort((a, b) => a[1].local_score < b[1].local_score ? 1 : -1);
           setScoreboard(result);
           setIsLoaded(true);
         },
