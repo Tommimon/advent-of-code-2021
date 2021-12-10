@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Orbitron", ...defaultTheme.fontFamily.sans],
+        sans: ["Source Code Pro", ...defaultTheme.fontFamily.sans],
       },
     },
   },

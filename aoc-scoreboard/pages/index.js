@@ -13,7 +13,7 @@ export default function Home() {
         />
         <style>
           @import
-          url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Orbitron:wght@500&display=swap');
+          url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
         </style>
       </Head>
 
