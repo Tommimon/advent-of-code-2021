@@ -20,8 +20,10 @@ public class day10 {
 
             String openers = "([{<";
             String closers = ")]}>";
+            int[] errorScores = {3,57,1197,25137};
             BufferedReader br = Files.newBufferedReader(Paths.get("marcomole00/d10/input"));
             List<String> lista = br.lines().toList();
+
             int charPos;
             int stackPointer; // points at the new and empty space
             long errorValueTotal = 0;
@@ -45,40 +47,23 @@ public class day10 {
                             stackPointer--;
                         } else {
 
-                            if (closers.indexOf(line.charAt(charPos)) == 0) {
-                                errorValueLine += 3;
-                            }
-                            if (closers.indexOf(line.charAt(charPos)) == 1) {
-                                errorValueLine += 57;
-                            }
-                            if (closers.indexOf(line.charAt(charPos)) == 2) {
-                                errorValueLine += 1197;
-                            }
-                            if (closers.indexOf(line.charAt(charPos)) == 3) {
-                                errorValueLine += 25137;
-                            }
-                            System.out.println(lista.indexOf(line) + "  " + errorValueTotal + "  " + line.charAt(charPos) + " " + charPos);
+                           errorValueLine += errorScores[closers.indexOf(line.charAt(charPos))];
                             charPos = line.length();
                             errorValueTotal += errorValueLine;
                         }
 
                     }
                     charPos++;
-
                     if (charPos == line.length() && errorValueLine == 0) {
                         while (stackPointer > 0) {
                             closingValueLine = closingValueLine * 5 + openers.indexOf(openersFound.get(stackPointer - 1))+1;
                             stackPointer--;
                         }
-                        //System.out.println(closingValueLine);
                         closingValues.add(closingValueLine);
                     }
-
-
                 }
             }
             closingValues.sort(Long::compareTo);
-
             System.out.println(errorValueTotal);
             System.out.println(closingValues.get(closingValues.size()/2));
 
