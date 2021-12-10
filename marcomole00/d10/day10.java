@@ -16,7 +16,6 @@ public class day10 {
             int[] errorScores = {3,57,1197,25137};
             BufferedReader br = Files.newBufferedReader(Paths.get("marcomole00/d10/input"));
             List<String> lista = br.lines().toList();
-
             int charPos;
             int stackPointer; // points at the new and empty space
             long errorValueTotal = 0;
