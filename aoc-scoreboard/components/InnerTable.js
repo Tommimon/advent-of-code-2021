@@ -8,19 +8,6 @@ export default function InnerTable(props) {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24, 25,
   ];
-  const NameToFolder = {
-    "Alessandro Nazzari": false,
-    "Marco Molè": "marcomole00",
-    "Matteo Negro": "MatteoBlack",
-    "riccardo-negri": "riccardo_negri",
-    Gonduls: "Gonduls",
-    Tommimon: "tommimon",
-    "Davide Palmiotti": "mynam3isg00d",
-    marcoparadina: "marcoparadina",
-    gingervi: false,
-    alexeats: false,
-    "john-galt-10": "john_galt_10",
-  };
 
   const [GitHubRepo, setGitHubRepo] = useState([]);
   const [error, setError] = useState(null);
@@ -106,12 +93,12 @@ export default function InnerTable(props) {
                   {value.completion_day_level[day] ? (
                     value.completion_day_level[day][1] ? (
                       value.completion_day_level[day][2] ? (
-                        NameToFolder[value.name] ? (
+                        props.NameToFolder[value.name] ? (
                           <p>
                             <a
                               href={
                                 "https://github.com/Tommimon/advent-of-code-2021/tree/master/" +
-                                NameToFolder[value.name] +
+                                props.NameToFolder[value.name] +
                                 "/d" +
                                 (day < 10 ? "0" : "") +
                                 day
@@ -124,19 +111,19 @@ export default function InnerTable(props) {
                             <ProgrammingLanguage
                               name={value.name}
                               day={day}
-                              NameToFolder={NameToFolder}
+                              NameToFolder={props.NameToFolder}
                               GitHubRepo={GitHubRepo}
                             />
                           </p>
                         ) : (
                           printStar(2)
                         )
-                      ) : NameToFolder[value.name] ? (
+                      ) : props.NameToFolder[value.name] ? (
                         <p>
                           <a
                             href={
                               "https://github.com/Tommimon/advent-of-code-2021/tree/master/" +
-                              NameToFolder[value.name] +
+                              props.NameToFolder[value.name] +
                               "/d" +
                               (day < 10 ? "0" : "") +
                               day
@@ -149,7 +136,7 @@ export default function InnerTable(props) {
                           <ProgrammingLanguage
                             name={value.name}
                             day={day}
-                            NameToFolder={NameToFolder}
+                            NameToFolder={props.NameToFolder}
                             GitHubRepo={GitHubRepo}
                           />
                         </p>
