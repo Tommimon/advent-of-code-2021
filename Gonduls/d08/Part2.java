@@ -3,18 +3,21 @@ package Gonduls.d08;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class Part2 {
     public static void main(String[] args) throws IOException {
+
         Stream<String> stream = Files.lines(Paths.get("Gonduls/d08/input.txt"));
         int result = stream.map(Part2::giveOutput).reduce(0, Integer::sum);
         stream.close();
-        System.out.println(result);
+
+        System.out.println("Result part 2 = " + result);
     }
 
     private static int giveOutput(String input){
-        String[] parts = input.replace(" | ", "z").split("z");
+        String output = input.split(Pattern.quote(" | "))[1];
         String[] numbers = input.replace(" | ", " ").split(" ");
         final String[] conversion = new String[10];
 
@@ -28,6 +31,14 @@ public class Part2 {
             }
         }
 
+        // procedure to find all remaining numbers:
+        // if it has 6 letters and contains all letters in number 4 => it's a 9
+        // if it has 5 letters and contains all letters in number 4 except the ones that are in number 1 => it's a 5
+        // next cycle:
+        // if it has 6 letters, it's not a 9, contains all letters in number 5 => it's a 6
+        // if it has 6 letters, it's not a 9, does not contain all letters in number 5 => it's a 0
+        // if it has 5 letters, it's not a 5, all its letters are contained in number 9 => it's a 2
+        // if it has 5 letters, it's not a 5, all its letters are not contained in number 9 => it's a 3
         for(String st : numbers){
             if(st.length() == 6){
                 boolean is9 = true;
@@ -97,7 +108,7 @@ public class Part2 {
         }
 
         int result = 0;
-        for(String st : (parts[1].split("\s"))){
+        for(String st : (output.split(" "))){
             st = sortString(st);
             result = 10*result + Arrays.asList(conversion).indexOf(st);
         }

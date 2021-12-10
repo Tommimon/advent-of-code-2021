@@ -2,6 +2,7 @@ package Gonduls.d08;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class Part1 {
@@ -11,7 +12,7 @@ public class Part1 {
 
         // just count correct length strings
         long result = stream
-                .map(s -> s.replace('|', 'z').split("z")[1])
+                .map(s -> s.split(Pattern.quote(" | "))[1])
                 .flatMap(s -> Stream.of(s.trim().split(" ")))
                 .filter(s -> (s.length() < 5 || s.length() == 7))
                 .count();
