@@ -12,12 +12,12 @@ def func(n):
 
 
 # deduce the total number of fish from the number of fish with lifetime 0 in the last 9 steps
-def fish(steps, n):
+def fish(steps, x):
     c = [1, 1, 2, 2, 2, 2, 2, 2, 1]
-    return sum(np.multiply(list(map(lambda e: func(e + 6 - n), range(steps - 8, steps + 1))), c))
+    return sum(np.multiply(list(map(lambda n: func(n + 6 - x), range(steps - 8, steps + 1))), c))
 
 
 with open('input', 'r') as file:
     numbers = list(map(int, file.read().split(',')))
-print(sum(map(lambda e: fish(80, e), numbers)))
-print(sum(map(lambda e: fish(256, e), numbers)))
+print(sum(map(lambda x: fish(80, x), numbers)))
+print(sum(map(lambda x: fish(256, x), numbers)))
