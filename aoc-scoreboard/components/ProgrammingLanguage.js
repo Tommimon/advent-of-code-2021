@@ -6,6 +6,8 @@ export default function Table(props) {
     ".cpp": "C++",
     ".asm": "Assembly",
     ".sql": "SQL",
+    ".pdf": "Markdown",
+    ".md": "Markdown"
   };
 
   const LangToIcon = {
@@ -15,6 +17,7 @@ export default function Table(props) {
     "C++": "devicon-cpp-plain",
     Assembly: "devicon-appcelerator-plain",
     SQL: "devicon-mysql-plain",
+    Markdown: "devicon-markdown-original"
   };
 
   const getProgrammmingLanguage = (tree, name, day, NameToFolder) => {
@@ -27,14 +30,21 @@ export default function Table(props) {
         : void 0
     );
 
+    const icons = [];
+    const check = false;
     for (const [key, value] of Object.entries(ExtensionsToLanguage)) {
+      const checkLang = false;
       for (const file of matchList) {
-        if (file.indexOf(key) > -1) {
-          return <i class={LangToIcon[value] + " colored text-2xl"}></i>;
+        if (file.indexOf(key) > -1 && !checkLang && (file.indexOf(".class") < 0)) {
+          icons.push(<i class={LangToIcon[value] + " colored text-2xl"}></i>);
+          checkLang = true;
+          check = true
         }
       }
     }
-
+    if (check) {
+      return icons
+    }
     return "?";
   };
 
