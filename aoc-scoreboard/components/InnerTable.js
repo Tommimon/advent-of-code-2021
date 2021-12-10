@@ -79,7 +79,7 @@ export default function InnerTable(props) {
               : "border-b border-gray-200 bg-white bg-opacity-100")
           }
         >
-          <td class="w-20 lg:w-full py-4 px-2 text-gray-800 text-sm font-medium text-center m-auto">
+          <td class="w-28 lg:w-full py-4 px-2 text-gray-800 text-sm font-medium text-center m-auto">
             <a
               href={"https://adventofcode.com/2021/day/" + day}
               target="_blank"
@@ -89,7 +89,7 @@ export default function InnerTable(props) {
           </td>
           {props.Scoreboard.members
             ? props.Scoreboard.members.map(([key, value]) => (
-                <td class="w-20 lg:w-full py-4 px-2 text-center m-auto">
+                <td class="w-28 lg:w-full py-4 px-2 text-center m-auto">
                   {value.completion_day_level[day] ? (
                     value.completion_day_level[day][1] ? (
                       value.completion_day_level[day][2] ? (

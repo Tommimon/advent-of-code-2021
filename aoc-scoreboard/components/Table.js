@@ -46,7 +46,7 @@ export default function Table(props) {
       <table class="text-left w-full block overflow-x-auto">
         <thead class="hidden lg:flex w-full">
           <tr class="flex items-center w-full bg-white text-gray-800 capitalize text-sm leading-normal">
-            <th class="w-20 lg:w-full py-3 text-center ">Day</th>
+            <th class="w-28 lg:w-full py-3 text-center ">Day</th>
             {Scoreboard.members ? (
               <HeaderTable
                 Scoreboard={Scoreboard}
@@ -62,7 +62,7 @@ export default function Table(props) {
           style={{ height: 65 + "vh" }}
         >
           <tr class="lg:hidden flex items-center w-full bg-white text-gray-800 capitalize text-sm leading-normal">
-            <th class="w-20 lg:w-full py-3 text-center ">Day</th>
+            <th class="w-28 lg:w-full py-3 text-center ">Day</th>
             {Scoreboard.members ? (
               <HeaderTable
                 Scoreboard={Scoreboard}

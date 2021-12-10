@@ -11,10 +11,12 @@ export default function Home() {
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css"
         />
-        <style>
-          @import
-          url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
-        </style>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+          rel="stylesheet"
+        />
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-8 lg:px-20 text-center">
