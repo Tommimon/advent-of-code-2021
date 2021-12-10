@@ -22,5 +22,5 @@ Click [here](https://tommimon.github.io/advent-of-code-2021/) to visit the leade
 
 To enable leaderboard automatic update on every commit run [`setup.py`](https://github.com/Tommimon/advent-of-code-2021/blob/master/setup.py)
 
-To find your cookie log in to [Advent of Code website](https://adventofcode.com/), open inspection and go to network tab. You can find your cookie in the request headers of any request you made to te website.
+To find your cookie log in to [Advent of Code website](https://adventofcode.com/), open inspection, go to network tab and reload the page. You can find your cookie in the request headers of any request you made to te website.
 
