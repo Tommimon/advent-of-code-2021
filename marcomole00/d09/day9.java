@@ -147,7 +147,7 @@ public class day9 {
                 System.out.println();
             }
 
-            lowPoints.sort(new sortByBasinSize());
+            lowPoints.sort(new SortByBasinSize());
             lowPoints.forEach(s->System.out.println(s.basinSize));
 
 

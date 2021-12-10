@@ -17,7 +17,7 @@ public class Point {
         this.height = heightPar;
         basinSize = 0;
         xBasin=-1;
-        yBasin =-1;
+        yBasin= -1;
     }
 
     public Point(Point pointToCopy) {
@@ -39,7 +39,7 @@ public class Point {
 }
 
 
-class sortByBasinSize implements Comparator<Point>
+class SortByBasinSize implements Comparator<Point>
 {
     @Override
     public int compare(Point o1, Point o2) {
