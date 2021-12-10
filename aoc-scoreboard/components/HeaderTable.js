@@ -1,7 +1,7 @@
 export default function HeaderTable(props) {
   return (
     <>
-      {Object.entries(props.Scoreboard.members).map(([key, value]) => (
+      {props.Scoreboard.members.map(([key, value]) => (
         <th class="w-20 lg:w-full py-3 px-2 text-center overflow-x-hidden">
           <p>
             {props.NameToFolder[value.name] ? (

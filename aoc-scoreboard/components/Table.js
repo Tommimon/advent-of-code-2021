@@ -29,6 +29,8 @@ export default function Table(props) {
       .then((res) => res.json())
       .then(
         (result) => {
+          // replace members with a sorted array
+          result.members = Object.entries(result.members).sort((a, b) => a[1].local_score < b[1].local_score);
           setScoreboard(result);
           setIsLoaded(true);
         },

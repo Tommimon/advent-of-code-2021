@@ -88,7 +88,7 @@ export default function InnerTable(props) {
             </a>
           </td>
           {props.Scoreboard.members
-            ? Object.entries(props.Scoreboard.members).map(([key, value]) => (
+            ? props.Scoreboard.members.map(([key, value]) => (
                 <td class="w-20 lg:w-full py-4 px-2 text-center m-auto">
                   {value.completion_day_level[day] ? (
                     value.completion_day_level[day][1] ? (
