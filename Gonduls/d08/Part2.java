@@ -70,7 +70,7 @@ public class Part2 {
                 boolean is6 = true;
                 boolean is0 = false;
 
-                if(st.startsWith(conversion[9]))
+                if(st.equals(conversion[9]))
                     continue;
 
                 for(char c : conversion[5].toCharArray()){
@@ -89,7 +89,7 @@ public class Part2 {
                 boolean is3 = true;
                 boolean is2 = false;
 
-                if(st.startsWith(conversion[5]))
+                if(st.equals(conversion[5]))
                     continue;
 
                 for(char c : st.toCharArray()){
