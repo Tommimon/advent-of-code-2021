@@ -7,7 +7,7 @@ Our solutions to Advent of Code problems
    /   <\|
   /     \'
   |_.- o-o 
-  / C  -._)\   tommaso lgbt 
+  / C  -._)\
  /',        |
 |   `-,_,__,'
 (,,)====[_]=|
