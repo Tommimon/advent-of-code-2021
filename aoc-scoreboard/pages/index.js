@@ -11,6 +11,10 @@ export default function Home() {
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css"
         />
+        <style>
+          @import
+          url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Orbitron:wght@500&display=swap');
+        </style>
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-8 lg:px-20 text-center">
