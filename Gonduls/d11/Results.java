@@ -2,7 +2,7 @@ package Gonduls.d11;
 
 import java.io.IOException;
 
-public class Part1 {
+public class Results {
     public static void main(String[] args) throws IOException {
         Input input = new Input("Gonduls/d11/input.txt");
         DumboOctopuses dumbos = new DumboOctopuses(input.getDumbos());
@@ -20,6 +20,7 @@ public class Part1 {
         allFlash = allFlash + allFlash + allFlash + allFlash + allFlash;
         allFlash = allFlash + allFlash;
 
+        // using debugging part 1 to complete part 2, that worked out
         while (!dumbos.toString().equals(allFlash)){
             i++;
             dumbos.passStep();

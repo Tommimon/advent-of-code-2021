@@ -5,7 +5,7 @@ import Gonduls.d02.Point2d;
 import java.util.List;
 
 public class DumboOctopuses {
-    private final int matrix[][] = new int[10][10];
+    private final int[][] matrix = new int[10][10];
 
     public DumboOctopuses(int[][] matrix){
         for(int y = 0; y<10; y++){
@@ -17,22 +17,26 @@ public class DumboOctopuses {
         int flashes = 0;
         boolean changes = true;
         boolean firstRound = true;
+
+        // it cycles over the matrix to see if other flashes need to happen until no more flashes happen
         while(changes){
             changes = false;
             for(int y = 0; y< 10; y++){
                 for(int x = 0; x< 10; x++){
+                    // I need != and not < to differentiate flashes that were not already accounted for from others
                     if(matrix[y][x] != 10) {
+                        // only need to add 1 to all elements during the first pass of the matrix
                         if(firstRound)
                             matrix[y][x] ++;
 
+                        // if a flash didn't occur: skip next part
                         if(matrix[y][x] != 10)
                             continue;
                     }
 
-                    //System.out.println(new Point2d(x, y));
                     flashes ++;
                     changes = true;
-                    matrix[y][x] ++;
+                    matrix[y][x] ++; // it goes to 11: the flash has been accounted for
                     List<Point2d> adjacent = Adjacent.getAdjacent(new Point2d(x, y), 10, 10, true);
                     for(Point2d point : adjacent){
                         if(matrix[point.y][point.x] != 10)
@@ -42,7 +46,6 @@ public class DumboOctopuses {
                 }
             }
 
-            //System.out.println(this);
             firstRound = false;
         }
 
