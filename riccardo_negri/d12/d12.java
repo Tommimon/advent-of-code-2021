@@ -65,8 +65,8 @@ public class d12 {
     public static void findPaths (Set<String> paths, String s, HashMap<String, Cave> map, List<String> smallVisited, List<String> path, boolean extraTime) {
         for (String c : map.get(s).getNearCaves()) {
             if (!smallVisited.contains(c)) {
-                List<String> currDebug = new ArrayList<>(path);
-                currDebug.add(c);
+                List<String> currPath = new ArrayList<>(path);
+                currPath.add(c);
                 List<String> currSmallVisited = new ArrayList<>(smallVisited);
                 if (c.toLowerCase().equals(c)) {
                     if (c.equals("end")) {
@@ -74,16 +74,16 @@ public class d12 {
                     }
                     else if (extraTime) {
                         currSmallVisited.add(c);
-                        findPaths(paths, c, map, currSmallVisited, currDebug, true);
+                        findPaths(paths, c, map, currSmallVisited, currPath, true);
                     }
                     else {
-                        findPaths(paths, c, map, currSmallVisited, currDebug, true);
+                        findPaths(paths, c, map, currSmallVisited, currPath, true);
                         currSmallVisited.add(c);
-                        findPaths(paths, c, map, currSmallVisited, currDebug, false);
+                        findPaths(paths, c, map, currSmallVisited, currPath, false);
                     }
                 }
                 else {
-                    findPaths(paths, c, map, currSmallVisited, currDebug, extraTime);
+                    findPaths(paths, c, map, currSmallVisited, currPath, extraTime);
                 }
             }
         }
