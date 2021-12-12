@@ -1,12 +1,6 @@
 package Gonduls.d11;
 
-import Gonduls.d04.BingoBoard;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
+import java.io.*;
 import java.util.Scanner;
 
 public class Input {
