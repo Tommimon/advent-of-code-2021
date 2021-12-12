@@ -7,57 +7,50 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class day12 {
-   public static boolean isLowerCase (String string) {
-       for (int i =0; i<string.length();i++) {
-           if (Character.isUpperCase(string.charAt(i))) {return false;}
-       }
-       return true;
+    static HashMap<String, List<String>> nodes = new HashMap<>();
+    static HashSet<List<String>> pathsFirst = new HashSet<>();
+    static HashSet<List<String>> pathsSecond = new HashSet<>();
+
+
+    public static boolean isLowerCase (String string) {
+       return string.toLowerCase(Locale.ROOT).equals(string); // copied from tommimon, the old one was stupid and not OOP-like
    }
 
-    public static void navigateFirstPart(HashSet<List<String>> paths, List<String> pathImOn, String nodeKey,  HashMap<String, List<String>> nodes) {
+    public static void navigateFirstPart(List<String> pathImOn, String nodeKey){
         List<String> pathImOnClone = new ArrayList<String>(pathImOn);
          if (Objects.equals(nodeKey, "end")) {
              pathImOnClone.add("end");
-             paths.add(pathImOnClone);
-
+             pathsFirst.add(pathImOnClone);
              return;
          }
-
          if (isLowerCase(nodeKey)) {
             if (pathImOnClone.contains(nodeKey)){return;} // sono già passato una volta su questo minuscolo, path illegale
          }
-
         pathImOnClone.add(nodeKey);
          for (String nextNode : nodes.get(nodeKey)) {
-
-             navigateFirstPart(paths, pathImOnClone, nextNode, nodes);
+             navigateFirstPart( pathImOnClone, nextNode);
          }
     }
 
 
-    public static void navigateSecondPart(HashSet<List<String>> paths, List<String> pathImOn, String nodeKey,  HashMap<String, List<String>> nodes) {
+    public static void navigateSecondPart( List<String> pathImOn, String nodeKey) {
         List<String> pathImOnClone = new ArrayList<String>(pathImOn);
-
-
         if (Objects.equals(nodeKey, "end")) {
             pathImOnClone.add("end");
-            paths.add(pathImOnClone);
+            pathsSecond.add(pathImOnClone);
             return;
         }
-
         if (isLowerCase(nodeKey) && pathImOnClone.contains(nodeKey) ) {
-            for (String nodeOnPath: pathImOnClone)
-            {
+            for (String nodeOnPath: pathImOnClone) {
                 if (isLowerCase(nodeOnPath) && pathImOnClone.indexOf(nodeOnPath) != pathImOnClone.lastIndexOf(nodeOnPath)) {
                     return; // In this path there are already two occurrences of a small cave
                 }
             }
         }
-
         pathImOnClone.add(nodeKey);
         for (String nextNode : nodes.get(nodeKey)) {
             if (!Objects.equals(nextNode, "start")) {
-                navigateSecondPart(paths, pathImOnClone, nextNode, nodes);
+                navigateSecondPart(pathImOnClone, nextNode);
             }
         }
     }
@@ -66,9 +59,6 @@ public class day12 {
         try {
             BufferedReader br = Files.newBufferedReader(Paths.get("marcomole00/d12/input"));
             List<String> lista = br.lines().toList();
-            HashMap<String, List<String>> nodes = new HashMap<>();
-            HashSet<List<String>> pathsFirst = new HashSet<>();
-            HashSet<List<String>> pathsSecond = new HashSet<>();
 
             for (String line : lista) {
                 String key = line.split("-")[0];
@@ -82,7 +72,7 @@ public class day12 {
                 nodes.get(key).add(value);
                 nodes.get(value).add(key);
             }
-            //prints all the adjacency lists(?)
+            //prints all the adjacency lists
             for (String key: nodes.keySet()) {
                 System.out.print("key:"+key + " Values: ");
                 nodes.get(key).forEach(s->System.out.print(s+" "));
@@ -91,20 +81,12 @@ public class day12 {
             ArrayList <String> pathImOn = new ArrayList<String>();
             pathImOn.add("start");
             for (String nextNode: nodes.get("start")) {
-                navigateFirstPart(pathsFirst, pathImOn, nextNode, nodes);
-                navigateSecondPart(pathsSecond, pathImOn, nextNode, nodes);
+                navigateFirstPart( pathImOn, nextNode);
+                navigateSecondPart( pathImOn, nextNode);
 
             }
             System.out.println(pathsFirst.size());
             System.out.println(pathsSecond.size());
-
-
-
-         /*   for (List<String> path : pathsSecond)
-            {
-                path.forEach(s -> System.out.print(s + ","));
-                System.out.println();
-            }*/
 
         } catch (IOException e) {System.out.println(e);}
     }
