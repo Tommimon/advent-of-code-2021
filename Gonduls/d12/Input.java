@@ -2,10 +2,7 @@ package Gonduls.d12;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Input {
 
@@ -15,6 +12,7 @@ public class Input {
         Scanner scan = new Scanner(new File(filePath));
         while(scan.hasNextLine()){
             String line = scan.nextLine();
+            // each connection is 2 way: need to add both ways to HashMap
             if(connections.containsKey(line.split("-")[0]))
                 connections.get(line.split("-")[0]).add(line.split("-")[1]);
             else{
@@ -28,15 +26,9 @@ public class Input {
                 connections.get(line.split("-")[1]).add(line.split("-")[0]);
             }
         }
-
     }
 
     public HashMap<String, List<String>> getConnections() {
-        HashMap<String, List<String>> copy = new HashMap<>();
-
-        for (String key: connections.keySet()) {
-            copy.put(key, new ArrayList<>(connections.get(key)));
-        }
-        return copy;
+        return new HashMap<>(connections);
     }
 }

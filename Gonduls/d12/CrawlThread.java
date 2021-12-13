@@ -1,88 +1,55 @@
 package Gonduls.d12;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 
-public class CrawlThread extends Thread{
+// I first implemented it as a thread, but found out it was much much slower, and ultimately did not work
+public class CrawlThread{
     private final HashMap<String, Integer> visited;
     private final String position;
-    private final static Object obj = new Object();
-    private final static Object obj2 = new Object();
-    private final List<CrawlThread> sons = new ArrayList<>();
 
     public CrawlThread(String start, HashMap<String, Integer> visited){
         this.visited = visited;
         position = start;
     }
 
-    public void run(){
-        if(!Crawler.connections.containsKey(position))
-            return;
+    public void crawl(){
+        for(String nextCave : Crawler.connections.get(position)){
 
-        System.out.println(position);
-        for(String cave : Crawler.connections.get(position)){
-            //System.out.println(position + "->" + cave);
-            if(cave.equals("start"))
+            if(visited.values().stream().filter(c -> c== 2).count() > 1)
+                return;
+
+            // Don't consider start cave as a valid nextCave
+            if(nextCave.equals("start"))
                 continue;
 
-            if(cave.equals("end")){
-
+            if(nextCave.equals("end")){
+                // It is bad practice accessing and modifying an attribute from another class,
+                // it would require too much work to avoid doing it
                 if(visited.values().stream().allMatch(c -> c ==1))
-                    synchronized (obj) {
-                        Crawler.result1++;
-                    }
+                    Crawler.result1++;
 
-                if(visited.values().stream().filter(c -> c== 2).count() <= 1)
-                    synchronized (obj2) {
-                        Crawler.result1++;
-                    }
-
+                Crawler.result2++;
                 continue;
             }
 
-            if(visited.containsKey(cave) && visited.get(cave) == 2)
+            // If I have already been in this (small) nextCave twice: don't crawl there
+            if(visited.containsKey(nextCave) && visited.get(nextCave) == 2)
                 continue;
 
-            int doubles = 0;
-            HashMap<String, Integer> copy = new HashMap<>();
-            for(String key : visited.keySet()){
-                if(key.equals(cave)){
-                    copy.put(key, 2);
-                    continue;
-                }
+            // by default, generator copies keys and values instead of giving a reference to the old HashMap,
+            // if clone is implemented by key and value types (I assume)
+            HashMap<String, Integer> copy = new HashMap<>(visited);
+            CrawlThread newCrawler = new CrawlThread(nextCave, copy);
 
-                copy.put(key, visited.get(key));
-
-            }
-
-            CrawlThread newCrawler = new CrawlThread(cave, copy);
-            sons.add(newCrawler);
-
-            if(cave.charAt(0) <= 'z' && cave.charAt(0) >= 'a') {
-                if(visited.containsKey(cave)){
-                    visited.replace(cave, 2);
+            // If nextCave is a small cave:
+            if(nextCave.charAt(0) <= 'z' && nextCave.charAt(0) >= 'a') {
+                if(visited.containsKey(nextCave)){
+                    newCrawler.visited.replace(nextCave, 2);
                 }
                 else
-                    newCrawler.visited.put(cave, 1);
+                    newCrawler.visited.put(nextCave, 1);
             }
-
-            //System.out.println("Starting new from " + position + " to " + cave);
-            newCrawler.run();
-        }
-
-        if(sons.isEmpty())
-            return;
-
-        for (CrawlThread son : sons){
-            try {
-                //System.out.println("son position " + son.position + " from " + position);
-                son.join();
-            }
-            catch(Exception e){
-                System.out.println("Houston, abbiamo un problema pt2");
-            }
+            newCrawler.crawl();
         }
     }
 }
