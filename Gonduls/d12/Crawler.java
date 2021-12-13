@@ -27,8 +27,8 @@ public class Crawler {
     }
 
     public int getResult2() {
-        if(result2 == 0)
-            getResult1();
+        //if(result2 == 0)
+        //    getResult1();
         return result2;
     }
 }

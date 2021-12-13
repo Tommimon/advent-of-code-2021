@@ -21,7 +21,7 @@ public class CrawlThread extends Thread{
         if(!Crawler.connections.containsKey(position))
             return;
 
-        //System.out.println(position);
+        System.out.println(position);
         for(String cave : Crawler.connections.get(position)){
             //System.out.println(position + "->" + cave);
             if(cave.equals("start"))
@@ -48,22 +48,14 @@ public class CrawlThread extends Thread{
             int doubles = 0;
             HashMap<String, Integer> copy = new HashMap<>();
             for(String key : visited.keySet()){
-                if(key.equals(cave) && visited.get(key) == 2){
-                    copy = null;
-                    break;
+                if(key.equals(cave)){
+                    copy.put(key, 2);
+                    continue;
                 }
-                if(visited.get(key) == 2)
-                    doubles ++;
 
-                if(doubles >= 2){
-                    copy = null;
-                    break;
-                }
                 copy.put(key, visited.get(key));
 
             }
-            if(copy == null)
-                continue;
 
             CrawlThread newCrawler = new CrawlThread(cave, copy);
             sons.add(newCrawler);
