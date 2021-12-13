@@ -10,9 +10,15 @@ public class day13 {
     public static void main(String[] args) {
         try{
             BufferedReader br = Files.newBufferedReader(Paths.get("marcomole00/d13/input"));
-            int[] coordx = br.lines().filter(s->s.matches("\\d*,\\d*")).map(s -> s.split(",")[0]).mapToInt(Integer::parseInt).toArray();
+            int[] coordx = br.lines().filter(s->s.matches("\\d*,\\d*"))
+                    .map(s -> s.split(",")[0])
+                    .mapToInt(Integer::parseInt).toArray();
             br = Files.newBufferedReader(Paths.get("marcomole00/d13/input")); // this is idiotic
-            int[] coordy = br.lines().filter(s->s.matches("\\d*,\\d*")).map(s -> s.split(",")[1]).mapToInt(Integer::parseInt).toArray();
+
+            int[] coordy = br.lines().filter(s->s.matches("\\d*,\\d*"))
+                    .map(s -> s.split(",")[1])
+                    .mapToInt(Integer::parseInt).toArray();
+
             br = Files.newBufferedReader(Paths.get("marcomole00/d13/input")); // this is idiotic
             List<String> creases= br.lines().filter(s->s.matches("fold along [yx]=\\d*")).map(s -> s.split(" ")[2]).toList();
 
@@ -25,8 +31,7 @@ public class day13 {
 
             assert coordx.length == coordy.length;
 
-            for (int i = 0; i<coordx.length;i++)
-            {
+            for (int i = 0; i<coordx.length;i++) {
                 matrix[coordy[i]][coordx[i]] = true;
             }
 
@@ -47,7 +52,6 @@ public class day13 {
                         for (int j = 0; j < sizex / 2; j++) {
                             matrix[i][j] = matrix[i][j] || matrix[i][sizex - 1 - j];
                             if (matrix[i][j]){numberOfPoint++;}
-
                         }
                     }
                     sizex = sizex / 2;
