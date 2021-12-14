@@ -15,6 +15,7 @@ public class Part1 {
         for(int i= 0; i< 10; i++){
             int index = 0;
 
+            // Actively substituting the two letters with themselves and their production
             while(index < letters.length() - 1){
                 if(insertions.containsKey(letters.substring(index, 2 + index))){
                     letters = letters.substring(0, index +1) + insertions.get(letters.substring(index, 2 + index)) + letters.substring(index + 1);

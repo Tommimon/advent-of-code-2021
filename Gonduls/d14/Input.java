@@ -13,10 +13,6 @@ public class Input {
         Scanner scan = new Scanner(new File(filePath));
         startingStr = scan.nextLine();
 
-        for(char c : startingStr.toCharArray()){
-            if(!allLetters.contains(c))
-                allLetters.add(c);
-        }
         scan.nextLine();
 
         while (scan.hasNextLine()) {
@@ -25,13 +21,6 @@ public class Input {
         }
 
         for(String str : pairInsertion.keySet()){
-            for(char c : str.toCharArray()){
-                if(!allLetters.contains(c))
-                    allLetters.add(c);
-            }
-        }
-
-        for(String str : pairInsertion.values()){
             for(char c : str.toCharArray()){
                 if(!allLetters.contains(c))
                     allLetters.add(c);
