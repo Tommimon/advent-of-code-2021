@@ -12,7 +12,6 @@ import java.util.PriorityQueue;
 public class PathManager {
     private final int[][] matrix;
     private static PathManager instance = null;
-    private int finalScore = 0;
 
     private PathManager(int[][] matrix){
         this.matrix = matrix;
@@ -27,8 +26,7 @@ public class PathManager {
 
     // had to implement endpoint mechanism for part 2, not particularly clean
     public int getFinalScore(Point2d endPoint){
-        Dijkstra(endPoint);
-        return finalScore;
+        return Dijkstra(endPoint);
     }
 
     // intellij suggested turning this class into a record, works for me
@@ -42,7 +40,7 @@ public class PathManager {
     }
 
 
-    private void Dijkstra(Point2d endPoint){
+    private int Dijkstra(Point2d endPoint){
 
         // all the magic happens in this PriorityQueue, and we'll never know how
         PriorityQueue<ElementInQueue> minHeap = new PriorityQueue<>(ElementInQueue::compareTo);
@@ -65,10 +63,9 @@ public class PathManager {
                     continue;
 
                 // Did not intend for it to be the only way to find the end, but it works like a charm
-                if(point.equals(endPoint)) {
-                    finalScore = current.distanceFrom0 + endPoint.valueInMatrix(matrix);
-                    return;
-                }
+                if(point.equals(endPoint))
+                    return current.distanceFrom0 + endPoint.valueInMatrix(matrix);
+
 
                 // All new points found are added to the PriorityQueue, but we did not yet determine what their smallest distance to 0 is
                 ElementInQueue next = new ElementInQueue(point, current.distanceFrom0 + point.valueInMatrix(matrix));
