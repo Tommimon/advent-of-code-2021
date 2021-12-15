@@ -13,7 +13,8 @@ public class day12 {
 
 
     public static boolean isLowerCase (String string) {
-       return string.toLowerCase(Locale.ROOT).equals(string); // copied from tommimon, the old one was stupid and not OOP-like
+       // copied from tommimon, the old one was stupid and not OOP-like
+        return string.toLowerCase(Locale.ROOT).equals(string);
    }
 
     public static void navigateFirstPart(List<String> pathImOn, String nodeKey){
@@ -34,6 +35,7 @@ public class day12 {
 
 
     public static void navigateSecondPart( List<String> pathImOn, String nodeKey) {
+        //if I don't do this the list is passed as a reference, which is bad.
         List<String> pathImOnClone = new ArrayList<String>(pathImOn);
         if (Objects.equals(nodeKey, "end")) {
             pathImOnClone.add("end");
