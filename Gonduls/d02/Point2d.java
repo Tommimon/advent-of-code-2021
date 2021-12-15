@@ -1,7 +1,5 @@
     package Gonduls.d02;
 
-    import static java.lang.Math.abs;
-
     public class Point2d {
     public final int x, y;
 
@@ -14,8 +12,16 @@
         this.y = y;
     }
 
-    public int manhdist(){
-        return abs(x)+abs(y);
+    public int valueInMatrix(int[][] matrix){
+        return  matrix[y][x];
+    }
+
+    public Integer valueInMatrix(Integer[][] matrix){
+        return  matrix[y][x];
+    }
+
+    public Object valueInMatrix(Object[][] matrix){
+        return  matrix[y][x];
     }
 
     @Override
@@ -41,7 +47,6 @@
         int result = "AdventOfCode2021".hashCode();
         result = 3701 * result + x;
         result = 3701 * result + y;
-        //System.out.println("Hashcode = " + result);
         return result;
     }
 }
