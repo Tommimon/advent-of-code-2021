@@ -9,7 +9,6 @@ import java.util.Vector;
 
 
 public class Part1 {
-    static Integer lowest = 999999999;
     static Integer[][] matrix;
 
     static void simulate() {
