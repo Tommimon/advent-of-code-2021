@@ -5,7 +5,7 @@ import java.util.List;
 
 public class LiteralPacket implements Packet{
 
-    String bits;
+    private String bits;
     private final int version, id;
 
     public LiteralPacket(String bits) throws PacketNotLiteralException{

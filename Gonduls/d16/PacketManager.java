@@ -5,9 +5,9 @@ import java.util.List;
 
 public class PacketManager {
 
-    final Packet packet;
+    final Packet packet = null;
 
-    public PacketManager(String packet){
+    /*public PacketManager(String packet){
         this.packet = new Packet(packet);
     }
 
@@ -39,6 +39,6 @@ public class PacketManager {
         }
         return subPackets;
     }
-
+    */
 
 }
