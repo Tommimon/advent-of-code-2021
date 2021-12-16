@@ -1,6 +1,9 @@
 package Gonduls.d16;
 
-public class LiteralPacket extends Packet{
+import java.util.ArrayList;
+import java.util.List;
+
+public class LiteralPacket implements Packet{
 
     String bits;
     private final int version, id;
@@ -50,5 +53,12 @@ public class LiteralPacket extends Packet{
     @Override
     public String getBits() {
         return bits;
+    }
+
+    @Override
+    public List<String> getSubPackets(){
+        List<String> ans = new ArrayList<>();
+        ans.add(bits);
+        return ans;
     }
 }
