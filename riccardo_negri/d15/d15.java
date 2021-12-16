@@ -8,13 +8,11 @@ package riccardo_negri.d15;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class d15 {
     static int SIZE = 100;
-    static int INFINITE = Integer.MAX_VALUE;
+    static int INFINITY = Integer.MAX_VALUE;
 
     public static void main (String[] args) throws Exception {
         File f = new File("riccardo_negri/d15/input.txt");
@@ -64,23 +62,28 @@ public class d15 {
     }
 
     public static List<Point> Dijkstra (int[][] matrix, Point start) throws Exception {
-        List<Point> Q = new ArrayList<>();
+        PriorityQueue<Point> minHeap = new PriorityQueue<>(new PointComparator());
         List<Point> alreadyProcessed = new ArrayList<>();
+        HashSet<String> alreadyProcessedReg = new HashSet<>();
+        int[][] distances = new int[matrix.length][matrix.length];
 
         // Initializations
-        Q.add(start);
+        minHeap.add(start);
+        distances[0][0] = 0;
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 if (!(i == 0 && j == 0)) {
-                    Q.add(new Point(i, j, INFINITE));
+                    distances[i][j] = INFINITY;
+                    minHeap.add(new Point(i, j, INFINITY));
                 }
             }
         }
 
         // The main loop
-        while (Q.size() > 0) {
-            Point minDistPoint = getMinDist(Q); // gets min dist point and removes it from Q
+        while (minHeap.size() > 0) {
+            Point minDistPoint = minHeap.remove(); // gets min dist point and removes it from Q
             alreadyProcessed.add(minDistPoint);
+            alreadyProcessedReg.add(minDistPoint.getX() + "-" + minDistPoint.getY());
 
             // update neighbors distances
             int currDist = minDistPoint.getDist();
@@ -88,8 +91,9 @@ public class d15 {
             for (int[] s : shifts) {
                 if (minDistPoint.getX() + s[0] >= 0 && minDistPoint.getX() + s[0] < matrix.length && minDistPoint.getY() + s[1] >= 0 && minDistPoint.getY() + s[1] < matrix.length) {
                     int tempDist = currDist + matrix[minDistPoint.getX() + s[0]][minDistPoint.getY() + s[1]];
-                    if (tempDist < getDistOf(Q, minDistPoint.getX() + s[0], minDistPoint.getY() + s[1])) {
-                        updateDistOf(Q, minDistPoint.getX() + s[0], minDistPoint.getY() + s[1], tempDist);
+                    if (!alreadyProcessedReg.contains((minDistPoint.getX() + s[0]) + "-" + (minDistPoint.getY() + s[1])) && tempDist < distances[minDistPoint.getX() + s[0]][minDistPoint.getY() + s[1]]) {
+                        distances[minDistPoint.getX() + s[0]][minDistPoint.getY() + s[1]] = tempDist;
+                        updateDistOf(minHeap, minDistPoint.getX() + s[0], minDistPoint.getY() + s[1], tempDist);
                     }
                 }
             }
@@ -99,10 +103,14 @@ public class d15 {
         return alreadyProcessed;
     }
 
-    public static void updateDistOf (List<Point> list, int x, int y, int dist) {
+
+    public static void updateDistOf (PriorityQueue<Point> list, int x, int y, int dist) {
         for (Point p : list) {
             if (p.getX() == x && p.getY() == y) {
+                list.remove(p);
                 p.setDist(dist);
+                list.add(p);
+                return;
             }
         }
     }
@@ -113,18 +121,7 @@ public class d15 {
                 return p.getDist();
             }
         }
-        return INFINITE;
-    }
-
-    public static Point getMinDist (List<Point> list) {
-        Point min = list.get(0);
-        for (int i = 1; i < list.size(); i++) {
-            if (list.get(i).getDist() < min.getDist()) {
-                min = list.get(i);
-            }
-        }
-        list.remove(min);
-        return min;
+        return INFINITY;
     }
 
 }
