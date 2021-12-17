@@ -5,7 +5,7 @@ import java.util.List;
 
 public class LiteralPacket implements Packet{
 
-    private String bits;
+    private final String bits;
     private final int version, id;
 
     public LiteralPacket(String bits) throws PacketNotLiteralException{
@@ -21,10 +21,12 @@ public class LiteralPacket implements Packet{
         this.bits = bits.substring(0, i+5);
     }
 
-    public int getValue(){
+    @Override
+    public long getValue(){
         String PacketBits = bits.substring(6);
         StringBuilder bits = new StringBuilder();
 
+        // turns out StringBuilders are very versatile
         while(PacketBits.charAt(0) == '1'){
             bits.append(PacketBits, 1, 5);
             PacketBits = PacketBits.substring(5);
@@ -32,7 +34,7 @@ public class LiteralPacket implements Packet{
         }
         bits.append(PacketBits, 1,5);
 
-        return Integer.parseInt(bits.toString(), 2);
+        return Long.parseLong(bits.toString(), 2);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class LiteralPacket implements Packet{
     }
 
     @Override
-    public List<String> getSubPackets(){
+    public List<String> getSubBits(){
         List<String> ans = new ArrayList<>();
         ans.add(bits);
         return ans;

@@ -1,44 +1,51 @@
 package Gonduls.d16;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PacketManager {
 
-    final Packet packet = null;
+    private final Packet packet;
 
-    /*public PacketManager(String packet){
-        this.packet = new Packet(packet);
-    }
 
-    public int getVersion(){
-        return packet.getVersion();
-    }
-
-    public int getId() {
-        return packet.getId();
-    }
-
-    public List<String> getSubPackets(){
-        return getSubPackets(this);
-    }
-
-    public List<String> getSubPackets(PacketManager packetManager){
-        if(packetManager.id == 4) return null;
-
-        List<String> subPackets = new ArrayList<>();
-        int lenghtTypeId = packetManager.packet.getPacket().charAt(6) - '0';
-
-        if(lenghtTypeId == 1){
-            int packetsNum = Integer.parseInt(packetManager.packet.getPacket().substring(7, 18), 2);
-            String Packetbits = packet.getPacket().substring(18);
-
-            for(int i = 0; i< packetsNum; i++){
-
+    static Packet getPacket(String bits){
+        // Not exactly how you are supposed to use Exceptions, but it works. Fairly used function
+        Packet packet = null;
+        try{
+            packet = new OperationPacket(bits);
+        } catch (PacketNotOperationException e){
+            try{
+                packet = new LiteralPacket(bits);
+            }
+            catch (PacketNotLiteralException ex){
+                System.out.println("Invalid packet: not an operation nor a literal, check input");
             }
         }
-        return subPackets;
+
+        assert packet != null;
+        return packet;
     }
-    */
+
+    public PacketManager(String bits){
+        this.packet = getPacket(bits);
+    }
+
+    public int sumVersion(){
+        return sumVersion(packet);
+    }
+
+    private int sumVersion(Packet packet){
+        int answer = 0;
+
+        if(packet.getId() == 4)
+            return packet.getVersion();
+
+        for(String bits : packet.getSubBits()) {
+            Packet current = getPacket(bits);
+            answer += sumVersion(current);
+        }
+        return answer + packet.getVersion();
+    }
+
+    public long getValue(){
+        return packet.getValue();
+    }
 
 }
