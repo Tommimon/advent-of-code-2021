@@ -3,61 +3,38 @@ package Gonduls.d16;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LiteralPacket implements Packet{
+public class LiteralPacket extends Packet{
 
-    private final String bits;
-    private final int version, id;
+    private final long value;
 
     public LiteralPacket(String bits) throws PacketNotLiteralException{
-
-        if(Integer.parseInt(bits.substring(3, 6), 2) != 4) throw new PacketNotLiteralException();
-        id = 4;
-        version = Integer.parseInt(bits.substring(0, 3), 2);
+        super(bits);
+        if(super.id != 4) throw new PacketNotLiteralException();
 
         int i = 6;
         while(bits.charAt(i) == '1')
             i += 5;
 
-        this.bits = bits.substring(0, i+5);
-    }
+        super.bits = bits.substring(0, i+5);
 
-    @Override
-    public long getValue(){
-        String PacketBits = bits.substring(6);
-        StringBuilder bits = new StringBuilder();
+        // calculate value
+        String PacketBits = super.bits.substring(6);
+        StringBuilder valueBits = new StringBuilder();
 
         // turns out StringBuilders are very versatile
         while(PacketBits.charAt(0) == '1'){
-            bits.append(PacketBits, 1, 5);
+            valueBits.append(PacketBits, 1, 5);
             PacketBits = PacketBits.substring(5);
-
         }
-        bits.append(PacketBits, 1,5);
 
-        return Long.parseLong(bits.toString(), 2);
+        valueBits.append(PacketBits, 1,5);
+        value = Long.parseLong(valueBits.toString(), 2);
     }
 
-    @Override
-    public int getLength(){
-        return bits.length();
+    public long getValue(){
+        return value;
     }
 
-    @Override
-    public int getVersion() {
-        return version;
-    }
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public String getBits() {
-        return bits;
-    }
-
-    @Override
     public List<String> getSubBits(){
         List<String> ans = new ArrayList<>();
         ans.add(bits);
