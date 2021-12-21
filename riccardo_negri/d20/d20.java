@@ -1,7 +1,7 @@
 //
 // Day 20 solution of Advent Of Code 2021 by Riccardo Negri
-// First part solution: 5711 too high, 5424 too low, 5237 too low, 5655 not right, 5560 not right
-// Second part solution:
+// First part solution: 5475
+// Second part solution: 17548
 //
 
 package riccardo_negri.d20;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class d20 {
-    private static final int OFFSET = 4;
+    private static final int OFFSET = 110;
     private static final int SIZE = 100;
 
     public static void main (String[] args) throws Exception {
@@ -47,11 +47,22 @@ public class d20 {
             }
         }
 
-        printMatrix(matrix);
-        matrix = enhance(matrix, algorithm, 1);
-        printMatrix(matrix);
-        matrix = enhance(matrix, algorithm, 2);
-        printMatrix(matrix);
+        //printMatrix(matrix);
+        for(int i = 0; i < 50; i++) {
+            matrix = enhance(matrix, algorithm, i+1);
+            if(i == 1) {
+                int count = 0;
+                for (int[] line : matrix) {
+                    for (int j = 0; j < matrix.length; j++) {
+                        if (line[j] == 1) {
+                            count++;
+                        }
+                    }
+                }
+                System.out.println(count);
+            }
+            //printMatrix(matrix);
+        }
 
         int count = 0;
         for (int[] line : matrix) {
@@ -66,8 +77,8 @@ public class d20 {
 
     public static int[][] enhance (int[][] matrix, List<Integer> algorithm, int enhanceNumber) {
         int[][] newMatrix = new int[SIZE + OFFSET * 2][SIZE + OFFSET * 2];
-        for (int i = OFFSET - enhanceNumber; i < OFFSET + SIZE + enhanceNumber; i++) {
-            for (int j = OFFSET - enhanceNumber; j < OFFSET + SIZE + enhanceNumber; j++) {
+        for (int i = enhanceNumber; i < OFFSET*2 + SIZE - enhanceNumber; i++) {
+            for (int j = enhanceNumber; j < OFFSET*2 + SIZE - enhanceNumber ; j++) {
                 StringBuilder binaryString = new StringBuilder();
                 for (int a = -1; a <= 1; a++) {
                     for (int b = -1; b <= 1; b++) {
@@ -95,6 +106,6 @@ public class d20 {
             System.out.println();
         }
         System.out.println();
-
     }
+
 }
