@@ -64,7 +64,6 @@ public class Pair {
     // It's somewhat easier to parse the string than to search values in a tree, it should be faster (not sure)
     private static Pair split(Pair pair){
         if(pair.value > 9){
-            //pair = new Pair((combine(((Integer) (pair.value / 2)).toString(), ((Integer) (pair.value / 2 + pair.value % 2)).toString())));
             pair.left = new Pair(((Integer) (pair.value / 2)) + ",");
             pair.right = new Pair(((Integer) (pair.value / 2 + pair.value % 2))+ "]");
             pair.value = -1;
