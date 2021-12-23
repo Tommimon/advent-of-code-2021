@@ -22,7 +22,7 @@ public class Part1 {
             cubes.add(new Cube(new Point(nums[0][0], nums[1][0], nums[2][0]), new Point(nums[0][1], nums[1][1], nums[2][1]), on));
         }
 
-        Cube[] firstCubes = Arrays.copyOfRange(cubes.toArray(Cube[]::new), 0, 20);
+        Cube[] firstCubes = cubes.stream().filter(c->c.pieces() < 1000000).toArray(Cube[]::new);
         int counter = 0;
         for (int i = -50; i <= 50; i++) {
             for (int j = -50; j <= 50; j++) {
