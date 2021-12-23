@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Vector;
 
-
 public class Template {
     public static void main(String[] args) throws IOException {
         BufferedReader br = Files.newBufferedReader(Paths.get("tommimon/d01/input"));
