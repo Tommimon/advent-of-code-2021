@@ -11,6 +11,8 @@ import java.util.Vector;
 public class Part2 {
     static Integer[] allowed = {0, 1, 3, 5, 7, 9, 10};
     static Integer[] forbidden = {2, 4, 6, 8};
+    static int minFuel = 999999999;
+    static char letters = 2;
 
     static void fillRow(Character[][] rooms, String str, int i) {
         str = str.substring(3, 10);
@@ -34,7 +36,7 @@ public class Part2 {
     static boolean free(Character[][] rooms, int i, int j) {
         if(i == 0)
             return true;
-        return rooms[j][0] == '.' && free(rooms, i-1, j);
+        return rooms[j][i-1] == '.' && free(rooms, i-1, j);
     }
 
     static boolean connected(Character[] hallway, int start, int end) {
@@ -52,64 +54,64 @@ public class Part2 {
         return (int) Math.pow(10, c - 'A') * steps;
     }
 
-    static int minFuel(Character[][] rooms, Character[] hallway, int fuel, int depth) {
-        for (int i = 0; i < hallway.length; i++) {
-            if (hallway[i] != '.') {
-                int destCol = hallway[i] - 'A';
-                if (connected(hallway, i, forbidden[destCol])) {
-                    for(int row = 3; row >= 0; row--) {
-                        if(rooms[destCol][row] != hallway[i])
-                            if(rooms[destCol][row] == '.') {
-                                if(free(rooms, row, destCol)) {
-                                    fuel += fuel(Math.abs(forbidden[destCol]-i)+1+row, hallway[i]);
-                                    rooms[destCol][row] = hallway[i];
-                                    hallway[i] = '.';
-                                }
-                            }
-                            else
-                                break;
-                    }
-                }
-            }
-        }
-        ArrayList<Integer> options = new ArrayList<>();
-        for (int col = 0; col < rooms.length; col++) {
-            if(depth == 1 && col == 1)
-                System.out.print("a");
-            for (int row = 0; row < 4; row++) {
-                if (rooms[col][row] != '.' && !correct(rooms, row, col) && free(rooms, row, col)) {
-                    for (int i: allowed) {
-                        int startPos = forbidden[col];
-                        if (connected(hallway, startPos, i)) {
-                            Character[][] roomCopy = Arrays.stream(rooms).map(c -> Arrays.copyOf(c, c.length)).toArray(Character[][]::new);
-                            Character[] hallwayCopy = Arrays.copyOf(hallway, hallway.length);
-                            int newFuel = fuel;
-                            hallwayCopy[i] = roomCopy[col][row];
-                            roomCopy[col][row] = '.';
-                            int d = fuel(Math.abs(startPos-i)+1+row, hallwayCopy[i]);
-                            newFuel += d;
-                            options.add(minFuel(roomCopy, hallwayCopy, newFuel, depth+1));
+    static void calcFuel(Character[][] rooms, Character[] hallway, int fuel, int depth) {
+        if (fuel > minFuel)
+            return;
+        boolean repeat = true;
+        while (repeat) {
+            repeat = false;
+            for (int i = 0; i < hallway.length; i++) {
+                if (hallway[i] != '.') {
+                    int destCol = hallway[i] - 'A';
+                    if (connected(hallway, i, forbidden[destCol])) {
+                        for (int row = 3; row >= 0; row--) {
+                            if (rooms[destCol][row] != hallway[i])
+                                if (rooms[destCol][row] == '.') {
+                                    if (free(rooms, row, destCol)) {
+                                        fuel += fuel(Math.abs(forbidden[destCol] - i) + 1 + row, hallway[i]);
+                                        rooms[destCol][row] = hallway[i];
+                                        hallway[i] = '.';
+                                        repeat = true;
+                                    }
+                                } else
+                                    break;
                         }
                     }
                 }
             }
         }
-        if (options.size() > 0) {
-            return options.stream().min(Integer::compareTo).get();
+        boolean moved = false;
+        for (int col = 0; col < rooms.length; col++) {
+            for (int row = 0; row < 4; row++) {
+                if (rooms[col][row] != '.' && !correct(rooms, row, col) && free(rooms, row, col)) {
+                    for (int i: allowed) {
+                        int startPos = forbidden[col];
+                        if (connected(hallway, startPos, i)) {
+                            moved = true;
+                            Character[][] roomCopy = Arrays.stream(rooms).map(c -> Arrays.copyOf(c, c.length)).toArray(Character[][]::new);
+                            Character[] hallwayCopy = Arrays.copyOf(hallway, hallway.length);
+                            int newFuel = fuel;
+                            hallwayCopy[i] = roomCopy[col][row];
+                            roomCopy[col][row] = '.';
+                            newFuel += fuel(Math.abs(startPos-i)+1+row, hallwayCopy[i]);
+                            calcFuel(roomCopy, hallwayCopy, newFuel, depth+1);
+                        }
+                    }
+                }
+            }
         }
-        else {
+        if (!moved) {
             boolean correct = true;
-            for(int j = 0; j < forbidden.length; j++) {
+            for(int j = 0; j < letters; j++) {
                 if (rooms[j][0] != 'A'+j || rooms[j][1] != 'A'+j || rooms[j][2] != 'A'+j || rooms[j][3] != 'A'+j) {
                     correct = false;
                     break;
                 }
             }
             if (correct) {
-                return fuel;
+                if (fuel < minFuel)
+                    minFuel = fuel;
             }
-            else
-                return 999999999;
         }
     }
 
@@ -125,7 +127,7 @@ public class Part2 {
         }
         Character[] hallway = new Character[11];
         Arrays.fill(hallway, '.');
-
-        System.out.println(minFuel(rooms, hallway, 0, 0));
+        calcFuel(rooms, hallway, 0, 0);
+        System.out.println(minFuel);
     }
 }
