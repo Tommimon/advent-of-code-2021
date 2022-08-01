@@ -13,3 +13,6 @@ cookies
 # Mac files
 .DS_Store
 /out/
+
+# Python bytecode
+__pycache__/
