@@ -1,3 +1,6 @@
+from functools import total_ordering
+
+@total_ordering
 class Point:
     def __init__(self, x : int, y : int, z : int):
         self.x = x
@@ -11,15 +14,21 @@ class Point:
         return x+y+z
 
     def manDistance(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return Point(self.x - other.x, self.y - other.y, self.z - other.z).manDistanceToZero()
 
     def value(self):
         return (self.x ** 2 + self.y ** 2 + self.z ** 2) ** 0.5
 
     def relativePoint(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return Point(other.x - self.x, other.y - self.y, other.z - self.z)
     
     def addPoint(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return Point(other.x + self.x, other.y + self.y, other.z + self.z)
     
     def __str__(self) -> str:
@@ -39,7 +48,29 @@ class Point:
 
     def __hash__(self) -> int:
         return hash((self.x, self.y, self.z))
-        
+    
+    def _is_valid_operand(self, other):
+        return (hasattr(other, 'x') and hasattr(other, 'y') and hasattr(other, 'z'))
+
+    def __lt__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
+        return self.x < other.x and self.y < other.y and self.z < other.z
+
+    def __gt__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
+        return self.x > other.x and self.y > other.y and self.z > other.z 
+
+    def __le__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
+        return self.x <= other.x and self.y <= other.y and self.z <= other.z
+
+    def __ge__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
+        return self.x >= other.x and self.y >= other.y and self.z >= other.z  
 
 def rotate(a, b, times):
     for _ in range(times):
