@@ -75,8 +75,7 @@ class Point:
 def rotate(a, b, times):
     for _ in range(times):
         a, b = b, -a
-    return(a, b)
-    
+    return(a, b)   
 
 def changeOrientation(point : Point, orientation : int) -> Point:
     if orientation < 0 or orientation > 23:
