@@ -15,7 +15,7 @@ class Solid:
         l1 = a-d if a-d > 0 else d-a
         l2 = b-e if b-e > 0 else e-b
         l3 = c-f if c-f > 0 else f-c
-        print(l1, l2, l3)
+        #print(l1, l2, l3)
         
         return (l1 + 1) * (l2 + 1) * (l3 + 1)
 
@@ -79,8 +79,13 @@ class Solid:
         return False
 
     def intersection(self, other):
+        #print('hi')
         s1, e1 = self.start, self.end
         s2, e2 = other.start, other.end
+        if s1 < s2 and s1 < e2 and e1 < s2 and e2 < e2:
+            return False
+        if s1 > s2 and s1 > e2 and e1 > s2 and e2 > e2:
+            return False
         
         if self.containsPoint(s2) and self.containsPoint(e2):
             return other
@@ -94,7 +99,6 @@ class Solid:
             if self.containsPoint(point):
                 foundVertices.append(point)
 
-
         if len(foundVertices) == 0:
             vertixInSelf = True
             for point in self.getVertices():
@@ -103,7 +107,38 @@ class Solid:
 
         match len(foundVertices):
             case 0:
-                return Solid(Point(0,0,0), Point(0,0,0))
+                for i in range(3):
+                    a = [s1.x, s1.y, s1.z]
+                    b = [e1.x, e1.y, e1.z]
+                    c = [s2.x, s2.y, s2.z]
+                    d = [e2.x, e2.y, e2.z]
+                    a[i], b[i], c[i], d[i] = 0, 0, 0, 0
+                    
+                    solid = Solid(Point(a[0], a[1], a[2]), Point(b[0], b[1], b[2]))
+                    if(solid.containsPoint(Point(c[0], c[1], c[2])) and solid.containsPoint(Point(d[0], d[1], d[2]))):
+                        a = [s1.x, s1.y, s1.z]
+                        b = [e1.x, e1.y, e1.z]
+                        c[i] = a[i]
+                        d[i] = b[i]
+                        st = Point(c[0], c[1], c[2])
+                        en = Point(d[0], d[1], d[2])
+                        if not (self.containsPoint(st) and self.containsPoint(en) and other.containsPoint(st) and other.containsPoint(en)):
+                            continue
+                        return Solid(st, en)
+                    
+                    solid = Solid(Point(c[0], c[1], c[2]), Point(d[0], d[1], d[2]))
+                    if(solid.containsPoint(Point(a[0], a[1], a[2])) and solid.containsPoint(Point(b[0], b[1], b[2]))):
+                        c = [s2.x, s2.y, s2.z]
+                        d = [e2.x, e2.y, e2.z]
+                        a[i] = c[i]
+                        b[i] = d[i]
+                        st = Point(a[0], a[1], a[2])
+                        en = Point(b[0], b[1], b[2])
+                        if not (self.containsPoint(st) and self.containsPoint(en) and other.containsPoint(st) and other.containsPoint(en)):
+                            continue
+                        return Solid(st, en)
+
+                return False
             case 1:
                 end = filter(lambda x : other.containsPoint(x), self.getVertices()).__next__()
                 start = filter(lambda x : self.containsPoint(x), other.getVertices()).__next__()
@@ -118,9 +153,15 @@ class Solid:
                 direction = 'x'
                 a = foundVertices[0]
                 b = foundVertices[1]
-                if a.x == b.x:
+                if a == b:
+                    if foundSolid.start.y == foundSolid.end.y:
+                        direction = 'y' 
+                    if foundSolid.start.z == foundSolid.end.z:
+                        direction = 'z' 
+                elif a.x == b.x:
                     direction = 'z' if a.y == b.y else 'y'
                 
+                #print(direction)
                 match direction:
                     case 'x':
                         iterable = set(map(lambda point: Point(b.x, point.y, point.z), checkVertices))
@@ -128,10 +169,10 @@ class Solid:
                         iterable = set(map(lambda point: Point(point.x, b.y, point.z), checkVertices))
                     case 'z':
                         iterable = set(map(lambda point: Point(point.x, point.y, b.z), checkVertices))
+                #print(iterable)
                 c = filter(lambda x : foundSolid.containsPoint(x), iterable).__next__()
 
                 return Solid(a, c)
-            
             case 4:
                 foundSolid, notFoundSolid = other, self
                 if vertixInSelf:
@@ -160,9 +201,6 @@ class Solid:
                 if(foundSolid.containsPoint(a)):
                     return Solid(foundVertix, a)
                 return Solid(foundVertix, b)
-            case _:
-                print(len(foundVertices))
-                return Solid(Point(0,0,0), Point(0,0,0))
 
     def __str__(self) -> str:
         return f'({self.start}, {self.end})'
@@ -171,9 +209,10 @@ class Solid:
         return Point.__str__(self)
 
     def __eq__(self, other: object) -> bool:
-        return (isinstance(other, self.__class__) and
-            getattr(other, 'start', None).__eq__(self.start) and
-            getattr(other, 'end', None).__eq__(self.end))
+        if not (isinstance(other, self.__class__) and hasattr(other, 'start') and hasattr(other, 'end')):
+            return False
+        
+        return set(self.getVertices()) == set(other.getVertices())
         
     def __ne__(self, __o: object) -> bool:
         return not(Point.__eq__(self, __o))
@@ -181,14 +220,14 @@ class Solid:
     def __hash__(self) -> int:
         return hash((self.start, self.end))
 
-a = Point(0,0,0)
-b = Point(8,8,4)
-c = Point(1,1,1)
-d = Point(2, 2, 16)
+if __name__ == '__main__':
+    a = Point(10, -2, 7)
+    b = Point(-25, -2, -29) 
+    c = Point(-47, -16, -7)
+    d = Point(7, 35, 45)
 
-e = Solid(a, b)
-f = Solid(c, d)
+    e = Solid(a, b)
+    f = Solid(c, d)
 
-print(f.intersection(e))
-print(e.getVertices())
-print(f.getVertices())
+    print(f.intersection(e))
+    print(f.intercepts(e))
