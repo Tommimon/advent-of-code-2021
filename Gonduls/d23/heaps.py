@@ -41,9 +41,9 @@ def minHeap(nodes: list):
 def insertInHeap(nodes: list, node: nodeInHeap):
     nodes.append(node)
     current = len(nodes) -1
-    while nodes[current].evaluation() < nodes[current//2].evaluation():
-        nodes[current], nodes[current//2] = nodes[current//2], nodes[current]
-        current //= 2 
+    while current > 0 and nodes[current].evaluation() < nodes[(current - 1)//2].evaluation():
+        nodes[current], nodes[(current - 1)//2] = nodes[(current - 1)//2], nodes[current]
+        current = (current - 1)//2
 
 def pop(nodes: list):
     res = nodes[0]
