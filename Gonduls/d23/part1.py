@@ -89,24 +89,28 @@ class Matrix:
         return result
 
     def isValidMove(self, start: tuple, end: tuple) -> bool:
+        # If path is not clear -> False
         if not self.getPath(start, end) == '.'* len(self.getPath(start, end)):
             return False
         
+        # If already in a final position -> False
         if self.isFinalPosition(start):
             return False
             
+        # If moving but remaining in same column or row -> False
         if start[0] == end[0] or start[1] == end[1]:
             return False
         
+        # If by applying the move we end up in a final position -> True
         if self.applyMove(start, end).isFinalPosition(end):
             return True
         
-        # if we start in a pocket we can noly end on top of a # - divide into 2 the movement
-        if start[1] > 0 and (end[1] > 0 or self.m[1][end[0]] != '#'):
-            return False
+        # if we start in a pocket we can only end on top of a # or in a final position
+        if start[1] > 0 and end[1] == 0 and self.m[1][end[0]] == '#':
+            return True
         
-        return True
-
+        return False
+        
     # Returns a list of tuples (start, end) defining all possible moves
     def getActions(self) -> list:
         result = []
@@ -118,8 +122,10 @@ class Matrix:
             start = (i, 0)
             if self.isValidMove(start, (col, 2)):
                 result.append((start, (col, 2)))
+                return result
             elif self.isValidMove(start, (col, 1)):
                 result.append((start, (col, 1)))
+                return result
         
         for j in range(1, 3):
             for i, letter in enumerate(self.m[j]):
@@ -134,29 +140,31 @@ class Matrix:
         return result
             
     def heuristic(self) -> int:
+        return 0
         result = 0
+        pos = [2, 2, 2, 2]
         for y in range(2, -1, -1):
             for x in range(11):
                 letter = self.m[y][x]
                 if letter == '.' or letter == '#':
                     continue
                 
+                exp = Matrix.getType(letter)
                 if self.isFinalPosition((x,y)):
+                    pos[exp] -= 1
                     continue
 
-                path = self.getPath((x, y), (Matrix.getDest(letter), 1))
-                if len(path) == 0:
-                    continue
+                path = self.getPath((x, y), (Matrix.getDest(letter), pos[exp]))
+                pos[exp] -= 1
                 
-                result += (len(path))* 10 ** Matrix.getType(letter)
-        
+                result += (len(path))* 10 ** exp
         return result
 
 def isGoal(m : Matrix):
     return m == Matrix(['...........', '##A#B#C#D##','##A#B#C#D##'])
 
 def getInput():
-    with open("advent-of-code-2021/Gonduls/d23/input.txt") as f:
+    with open("Gonduls/d23/input.txt") as f:
         lines = f.readlines()
 
     return Matrix(lines[1:4])
@@ -165,23 +173,39 @@ def aStar(start: Matrix) -> int:
     frontier = []
     current = nodeInHeap(start, 0, start.heuristic())
     hitset = set()
+    hitMap = dict()
+    fatherMap = dict()
+
     while not isGoal(current.obj):
         actions = current.obj.getActions()
         cost = current.cost
         for action in actions:
             m = current.obj.applyMove(action[0], action[1])
-
-            if hash(m) in hitset:
+            h = hash(m)
+            if h in hitset:
                 continue
-            hitset.add(hash(m))
+            hitset.add(h)
+            hitMap[h] = m
+            fatherMap[h] = hash(current.obj)
+
             c = current.obj.getCost(action[0], action[1]) + cost
             h = m.heuristic()
             insertInHeap(frontier, nodeInHeap(m, c, h))
-        
-    
+            
         current = pop(frontier)
+    
+    printPath(hitMap, fatherMap, hash(current.obj))
     return(current.cost)
 
+def printPath(hitMap: dict, fatherMap:dict, currentH: int):
+    if currentH not in hitMap.keys():
+        print(getInput())
+        return
+    
+    printPath(hitMap, fatherMap, fatherMap[currentH])
+
+    print(hitMap[currentH])
+    
 
 if __name__ == '__main__':
     matrix = getInput()
