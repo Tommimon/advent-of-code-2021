@@ -140,7 +140,6 @@ class Matrix:
         return result
             
     def heuristic(self) -> int:
-        return 0
         result = 0
         pos = [2, 2, 2, 2]
         for y in range(2, -1, -1):
