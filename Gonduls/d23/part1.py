@@ -123,6 +123,7 @@ class Matrix:
             if self.isValidMove(start, (col, 2)):
                 result.append((start, (col, 2)))
                 return result
+
             elif self.isValidMove(start, (col, 1)):
                 result.append((start, (col, 1)))
                 return result
@@ -140,6 +141,7 @@ class Matrix:
         return result
             
     def heuristic(self) -> int:
+        #return 0
         result = 0
         pos = [2, 2, 2, 2]
         for y in range(2, -1, -1):
@@ -180,19 +182,31 @@ def aStar(start: Matrix) -> int:
         cost = current.cost
         for action in actions:
             m = current.obj.applyMove(action[0], action[1])
-            h = hash(m)
+
+            c = current.obj.getCost(action[0], action[1]) + cost
+            h = hash(m) + c
             if h in hitset:
                 continue
+
             hitset.add(h)
+            h -= c
             hitMap[h] = m
             fatherMap[h] = hash(current.obj)
 
-            c = current.obj.getCost(action[0], action[1]) + cost
+
             h = m.heuristic()
             insertInHeap(frontier, nodeInHeap(m, c, h))
-            
+            a = frontier[0].cost
+            for node in frontier:
+                if node.evaluation() < a:
+                    raise Exception
+                
+        a = frontier[0].evaluation()
+        for node in frontier:
+            if node.evaluation() < a:
+                raise Exception
         current = pop(frontier)
-    
+
     printPath(hitMap, fatherMap, hash(current.obj))
     return(current.cost)
 
@@ -209,4 +223,3 @@ def printPath(hitMap: dict, fatherMap:dict, currentH: int):
 if __name__ == '__main__':
     matrix = getInput()
     print('result part 1: ' + str(aStar(matrix)))
-
