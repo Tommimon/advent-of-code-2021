@@ -184,14 +184,13 @@ def aStar(start: Matrix) -> int:
             m = current.obj.applyMove(action[0], action[1])
 
             c = current.obj.getCost(action[0], action[1]) + cost
-            h = hash(m) + c
+            h = hash((m, c))
             if h in hitset:
                 continue
 
             hitset.add(h)
-            h -= c
             hitMap[h] = m
-            fatherMap[h] = hash(current.obj)
+            fatherMap[h] = hash((current.obj, current.cost))
 
 
             h = m.heuristic()
@@ -207,7 +206,7 @@ def aStar(start: Matrix) -> int:
                 raise Exception
         current = pop(frontier)
 
-    printPath(hitMap, fatherMap, hash(current.obj))
+    printPath(hitMap, fatherMap, hash((current.obj, current.cost)))
     return(current.cost)
 
 def printPath(hitMap: dict, fatherMap:dict, currentH: int):
@@ -216,7 +215,6 @@ def printPath(hitMap: dict, fatherMap:dict, currentH: int):
         return
     
     printPath(hitMap, fatherMap, fatherMap[currentH])
-
     print(hitMap[currentH])
     
 
