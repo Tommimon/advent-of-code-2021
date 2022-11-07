@@ -195,15 +195,7 @@ def aStar(start: Matrix) -> int:
 
             h = m.heuristic()
             insertInHeap(frontier, nodeInHeap(m, c, h))
-            a = frontier[0].cost
-            for node in frontier:
-                if node.evaluation() < a:
-                    raise Exception
-                
-        a = frontier[0].evaluation()
-        for node in frontier:
-            if node.evaluation() < a:
-                raise Exception
+            
         current = pop(frontier)
 
     printPath(hitMap, fatherMap, hash((current.obj, current.cost)))
