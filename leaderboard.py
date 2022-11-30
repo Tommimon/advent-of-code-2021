@@ -40,8 +40,8 @@ def update_leaderboard():
         print("Not enough time elapsed since last update, skipping leaderboard update")
     return True
 
-
-if not update_leaderboard():
-    print("Couldn't update the leaderboard")
-else:
-    print("Leaderboard is up to date")
+print("2021 Leaderboard has been locked, skipping update")
+#if not update_leaderboard():
+#    print("Couldn't update the leaderboard")
+#else:
+#    print("Leaderboard is up to date")
